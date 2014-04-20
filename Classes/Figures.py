@@ -16,30 +16,34 @@ class Figure:
 class Pawn(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mP\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mP\033[0m'.format(7*(colour == 'White'))
 
 
 class Knight(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mH\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mH\033[0m'.format(7*(colour == 'White'))
+
 
 class Bishop(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mB\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mB\033[0m'.format(7*(colour == 'White'))
+
 
 class Rook(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mR\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mR\033[0m'.format(7*(colour == 'White'))
+
 
 class Queen(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mQ\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mQ\033[0m'.format(7*(colour == 'White'))
+
 
 class King(Figure):
     def __init__(self, colour):
         self._colour = colour
-        self._symbol = '\033[{}mK\033[0m'.format(30*(colour == 'Black'))
+        self._symbol = '\033[3{}mK\033[0m'.format(7*(colour == 'White'))

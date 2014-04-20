@@ -9,27 +9,39 @@ class TestBoard(unittest.TestCase):
     def test_initialisation(self):
         board = Board()
         self.assertEqual(board[0], [Rook('Black'), Knight('Black'),
-                                    Bishop('Black'), King('Black'),
-                                    Queen('Black'), Bishop('Black'),
+                                    Bishop('Black'), Queen('Black'),
+                                    King('Black'), Bishop('Black'),
                                     Knight('Black'), Rook('Black')])
         self.assertEqual(board[7], [Rook('White'), Knight('White'),
-                                    Bishtop('White'), King('White'),
-                                    Queen('White'), Bishop('White'),
+                                    Bishop('White'), Queen('White'),
+                                    King('White'), Bishop('White'),
                                     Knight('White'), Rook('White')])
-        for row in range(1, 7):
-            self.assertEqual(board[row], [' ']*8)
+        for row in range(2, 6):
+            self.assertEqual(board[row], ['']*8)
 
     def test_to_string(self):
         board = Board()
-        self.assertEqual(str(board), '8 |BlRook|BlKght|BlBish|BlKing|BlQuen|BlKght|BlBish|BlRook|\n'
-                                     '7 |BlPawn|BlPawn|BlPawn|BlPawn|BlPawn|BlPawn|BlPawn|BlPawn|\n'
-                                     '6 |______|______|______|______|______|______|______|______|\n'
-                                     '5 |______|______|______|______|______|______|______|______|\n'
-                                     '4 |______|______|______|______|______|______|______|______|\n'
-                                     '3 |______|______|______|______|______|______|______|______|\n'
-                                     '2 |WhPawn|WhPawn|WhPawn|WhPawn|WhPawn|WhPawn|WhPawn|WhPawn|\n'
-                                     '1 |WhRook|WhKght|WhBish|WhKing|WhQuen|WhKght|WhBish|WhRook|')
+        self.assertEqual(str(board), '8 |\033[30mR\033[0m|\033[30mH\033[0m|'
+                                     '\033[30mB\033[0m|\033[30mQ\033[0m|'
+                                     '\033[30mK\033[0m|\033[30mB\033[0m|'
+                                     '\033[30mH\033[0m|\033[30mR\033[0m|\n'
+                                     '7 |\033[30mP\033[0m|\033[30mP\033[0m|'
+                                     '\033[30mP\033[0m|\033[30mP\033[0m|'
+                                     '\033[30mP\033[0m|\033[30mP\033[0m|'
+                                     '\033[30mP\033[0m|\033[30mP\033[0m|\n'
+                                     '6 | | | | | | | | |\n'
+                                     '5 | | | | | | | | |\n'
+                                     '4 | | | | | | | | |\n'
+                                     '3 | | | | | | | | |\n'
+                                     '2 |\033[37mP\033[0m|\033[37mP\033[0m|'
+                                     '\033[37mP\033[0m|\033[37mP\033[0m|'
+                                     '\033[37mP\033[0m|\033[37mP\033[0m|'
+                                     '\033[37mP\033[0m|\033[37mP\033[0m|\n'
+                                     '1 |\033[37mR\033[0m|\033[37mH\033[0m|'
+                                     '\033[37mB\033[0m|\033[37mQ\033[0m|'
+                                     '\033[37mK\033[0m|\033[37mB\033[0m|'
+                                     '\033[37mH\033[0m|\033[37mR\033[0m|\n'
+                                     '   A B C D E F G H')
 
-    
 if __name__ == '__main__':
     unittest.main()

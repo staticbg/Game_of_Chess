@@ -13,7 +13,7 @@ class TestFigures(unittest.TestCase):
         self.assertEqual(str(King('Black')), 'Black King')
 
     def test_symbols(self):
-        self.assertEqual(Pawn('White')._symbol, '\033[0mP\033[0m')
+        self.assertEqual(Pawn('White')._symbol, '\033[37mP\033[0m')
         self.assertEqual(Knight('Black')._symbol, '\033[30mH\033[0m')
 
     def test_equals(self):
