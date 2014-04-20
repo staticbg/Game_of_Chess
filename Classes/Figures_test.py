@@ -45,8 +45,12 @@ class TestLostFigures(unittest.TestCase):
         self.assertEqual(len(self.lost_figures), 2)
 
     def test_swap_pawn_for_figure(self):
+        self.lost_figures.add_figure(Bishop('Black'))
+        self.lost_figures.add_figure(King('Black'))
         self.lost_figures.swap_pawn_for_figure(Bishop('Black'))
         self.assertEqual(self.lost_figures[-1], Pawn('Black'))
+        self.assertEqual(self.lost_figures[-2], King('Black'))
+        self.assertEqual(self.lost_figures[-3], Bishop('Black'))
 
 if __name__ == '__main__':
     unittest.main()
