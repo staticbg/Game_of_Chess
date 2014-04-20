@@ -21,6 +21,7 @@ class TestFigures(unittest.TestCase):
         self.assertNotEqual(Pawn('White'), Pawn('Black'))
         self.assertNotEqual(Pawn('White'), Knight('White'))
 
+
 class TestLostFigures(unittest.TestCase):
     def setUp(self):
         self.lost_figures = LostFigures()
