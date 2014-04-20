@@ -17,21 +17,26 @@ class Pawn(Figure):
     def __init__(self, colour):
         self._colour = colour
 
+
 class Knight(Figure):
     def __init__(self, colour):
         self._colour = colour
+
 
 class Bishop(Figure):
     def __init__(self, colour):
         self._colour = colour
 
+
 class Rook(Figure):
     def __init__(self, colour):
         self._colour = colour
-        
+
+
 class Queen(Figure):
     def __init__(self, colour):
         self._colour = colour
+
 
 class King(Figure):
     def __init__(self, colour):
