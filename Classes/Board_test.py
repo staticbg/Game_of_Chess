@@ -6,7 +6,7 @@ from Board import Board
 
 
 class TestBoard(unittest.TestCase):
-    def test_initialisation(self):
+    def test_get_item(self):
         board = Board()
         self.assertEqual(board[0], [Rook('Black'), Knight('Black'),
                                     Bishop('Black'), Queen('Black'),
