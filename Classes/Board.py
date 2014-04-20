@@ -33,3 +33,6 @@ class Board:
                 result = '{}|{}'.format(result, symbol)
             result = '{}{}'.format(result, '|\n')
         return '{}{}'.format(result, '   A B C D E F G H')
+
+    def __repr__(self):
+        return 'Chess Board'

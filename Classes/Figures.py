@@ -47,3 +47,33 @@ class King(Figure):
     def __init__(self, colour):
         self._colour = colour
         self._symbol = '\033[3{}mK\033[0m'.format(7*(colour == 'White'))
+
+
+class LostFigures():
+    def __init__(self):
+        self._lost_figures = []
+
+    def __eq__(self, other):
+        return self._lost_figures == other._lost_figures
+
+    def __str__(self):
+        result = ''
+        for figure in self._lost_figures:
+            result = '{} {}'.format(result, str(figure))
+        return result
+
+    def __repr__(self):
+        return str(self)
+
+    def __len__(self):
+        return len(self._lost_figures)
+
+    def __getitem__(self, index):
+        return self._lost_figures[index]
+
+    def add_figure(self, figure):
+        self._lost_figures.append(figure)
+
+    def swap_pawn_for_figure(self, figure):
+        self._lost_figures.remove(figure)
+        self.add_figure(Pawn(figure._colour))

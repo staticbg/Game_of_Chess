@@ -1,6 +1,6 @@
 import unittest
 
-from Figures import Pawn, Knight, Bishop, Rook, Queen, King
+from Figures import Pawn, Knight, Bishop, Rook, Queen, King, LostFigures
 
 
 class TestFigures(unittest.TestCase):
@@ -20,6 +20,32 @@ class TestFigures(unittest.TestCase):
         self.assertEqual(Pawn('White'), Pawn('White'))
         self.assertNotEqual(Pawn('White'), Pawn('Black'))
         self.assertNotEqual(Pawn('White'), Knight('White'))
+
+class TestLostFigures(unittest.TestCase):
+    def setUp(self):
+        self.lost_figures = LostFigures()
+        self.lost_figures.add_figure(Pawn('White'))
+        self.lost_figures.add_figure(Bishop('Black'))
+        self.lost_figures_2 = LostFigures()
+        self.lost_figures_2.add_figure(Pawn('White'))
+        self.lost_figures_2.add_figure(Bishop('Black'))
+
+    def test_add_and_index(self):
+        self.assertEqual(self.lost_figures[0], Pawn('White'))
+        self.assertEqual(self.lost_figures[1], Bishop('Black'))
+
+    def test_equals(self):
+        self.assertEqual(self.lost_figures, self.lost_figures_2)
+
+    def test_to_string(self):
+        self.assertEqual(str(self.lost_figures), ' White Pawn Black Bishop')
+
+    def test_len(self):
+        self.assertEqual(len(self.lost_figures), 2)
+
+    def test_swap_pawn_for_figure(self):
+        self.lost_figures.swap_pawn_for_figure(Bishop('Black'))
+        self.assertEqual(self.lost_figures[-1], Pawn('Black'))
 
 if __name__ == '__main__':
     unittest.main()
