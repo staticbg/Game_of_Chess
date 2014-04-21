@@ -11,8 +11,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board['A8'], Rook('Black'))
         self.assertEqual(board['G8'], Knight('Black'))
         self.assertEqual(board['C1'], Bishop('White'))
-        self.assertEqual(board['E2'], Pawn('White'))
-        self.assertEqual(board['F5'], '')
+        self.assertEqual(board['e2'], Pawn('White'))
+        self.assertEqual(board['f5'], '')
 
     def test_to_string(self):
         board = Board()

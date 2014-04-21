@@ -1,23 +1,23 @@
+import re
+
 from Figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 
 class ValidMoves:
 
     @classmethod
-    def pawn_valid_move(self, board, start, end, colour):
-        if start[0] not in range(1, 9) or\
-           start[1] not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] or\
-           end[0] not in range(1, 9) or\
-           end[1] not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
-            return False
-        if board[8 - start[0]][ord(start[1]) - 65] == Pawn(colour):
-            if end == [start[0] + 1, start[1]]\
-               and board[8 - end[0]][ord(end[1]) - 65] == '':
+    def pawn_valid_move(self, board, origin, target, colour):
+        if re.match(r'^[a-hA-H][1-8]$', origin) and\
+           re.match(r'^[a-hA-H][1-8]$', target):
+            if target[0] == origin[0] and\
+               target[1] == '{}'.format(int(origin[1]) + 1) and\
+               board[target] == '':
                 return True
-            elif (end == [start[0] + 1, chr(ord(start[1]) - 1)] or
-                  end == [start[0] + 1, chr(ord(start[1]) + 1)] and
-                  isinstance(board[8 - end[0]][ord(end[1]) - 65], Figure) and
-                  board[8 - end[0]][ord(end[1]) - 65]._colour != colour):
+            elif target[0] == '{}'.format(chr(ord(origin[0]) + 1)) or\
+                    target[0] == '{}'.format(chr(ord(origin[1]) - 1)) and\
+                    target[1] == '{}'.format(int(origin[1]) + 1) and\
+                    isinstance(board[target], Figure) and\
+                    board[target]._colour != colour:
                 return True
             else:
                 return False
@@ -46,7 +46,7 @@ class Board:
                         Knight('White'), Rook('White')]]
 
     def __getitem__(self, position):
-        return self._board[8 - int(position[1])][ord(position[0]) - 65]
+        return self._board[8 - int(position[1])][ord(position[0].upper()) - 65]
 
     def __str__(self):
         result = ''
