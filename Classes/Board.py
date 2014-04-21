@@ -26,6 +26,80 @@ class ValidMoves:
         else:
             return False
 
+    @classmethod
+    def rook_valid_move(self, board, origin, target, colour):
+        if self.valid_position(origin) and self.valid_position(target):
+            if isinstance(board[target], Figure) and\
+               board[target]._colour != colour:
+                # TODO: add uggly algorithm
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    @classmethod
+    def knight_valid_move(self, board, origin, target, colour):
+        if self.valid_position(origin) and self.valid_position(target):
+            if isinstance(board[target], Figure) and\
+               board[target]._colour != colour:
+                return (target == '{}{}'
+                        .format(chr(ord(origin[0]) + 2), origin[1] + 1) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) + 2), origin[1] - 1) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) - 2), origin[1] + 1) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) - 2), origin[1] - 1) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) + 1), origin[1] + 2) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) + 1), origin[1] - 2) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) - 1), origin[1] + 2) or
+                        target == '{}{}'
+                        .format(chr(ord(origin[0]) - 1), origin[1] - 2))
+            else:
+                return False
+        else:
+            return False
+
+    @classmethod
+    def bishop_valid_move(self, board, origin, target, colour):
+        if self.valid_position(origin) and self.valid_position(target):
+            if isinstance(board[target], Figure) and\
+               board[target]._colour != colour:
+               # TODO: add uggly algorithm
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    @classmethod
+    def queen_valid_move(self, board, origin, target, colour):
+        if self.valid_position(origin) and self.valid_position(target):
+            if isinstance(board[target], Figure) and\
+               board[target]._colour != colour:
+               # TODO: add uggly algorithm
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    @classmethod
+    def king_valid_move(self, board, origin, target, colour):
+        if self.valid_position(origin) and self.valid_position(target):
+            if isinstance(board[target], Figure) and\
+               board[target]._colour != colour:
+               # TODO: add uggly algorithm
+                return True
+            else:
+                return False
+        else:
+            return False
+
 
 class Board:
     def __init__(self):
