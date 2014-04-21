@@ -5,10 +5,12 @@ from Figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 class ValidMoves:
 
+    def valid_position(position):
+        return re.match(r'^[a-hA-H][1-8]$', position)
+
     @classmethod
     def pawn_valid_move(self, board, origin, target, colour):
-        if re.match(r'^[a-hA-H][1-8]$', origin) and\
-           re.match(r'^[a-hA-H][1-8]$', target):
+        if self.valid_position(origin) and self.valid_position(target):
             if target[0] == origin[0] and\
                target[1] == '{}'.format(int(origin[1]) + 1) and\
                board[target] == '':
