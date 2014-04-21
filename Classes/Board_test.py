@@ -8,16 +8,11 @@ from Board import Board
 class TestBoard(unittest.TestCase):
     def test_get_item(self):
         board = Board()
-        self.assertEqual(board[0], [Rook('Black'), Knight('Black'),
-                                    Bishop('Black'), Queen('Black'),
-                                    King('Black'), Bishop('Black'),
-                                    Knight('Black'), Rook('Black')])
-        self.assertEqual(board[7], [Rook('White'), Knight('White'),
-                                    Bishop('White'), Queen('White'),
-                                    King('White'), Bishop('White'),
-                                    Knight('White'), Rook('White')])
-        for row in range(2, 6):
-            self.assertEqual(board[row], ['']*8)
+        self.assertEqual(board['A8'], Rook('Black'))
+        self.assertEqual(board['G8'], Knight('Black'))
+        self.assertEqual(board['C1'], Bishop('White'))
+        self.assertEqual(board['E2'], Pawn('White'))
+        self.assertEqual(board['F5'], '')
 
     def test_to_string(self):
         board = Board()

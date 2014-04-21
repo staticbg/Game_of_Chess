@@ -45,8 +45,8 @@ class Board:
                         King('White'), Bishop('White'),
                         Knight('White'), Rook('White')]]
 
-    def __getitem__(self, index):
-        return self._board[index]
+    def __getitem__(self, position):
+        return self._board[8 - int(position[1])][ord(position[0]) - 65]
 
     def __str__(self):
         result = ''
