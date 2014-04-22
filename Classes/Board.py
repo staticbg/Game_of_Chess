@@ -3,11 +3,13 @@ import re
 from Figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 
+#BIG TODO: Fix the isinstance bullshit
 class ValidMoves:
 
     def valid_position(position):
         return re.match(r'^[a-hA-H][1-8]$', position)
 
+    #TODO: pawns can start with a double move..
     @classmethod
     def pawn_valid_move(self, board, origin, target, colour):
         if self.valid_position(origin) and self.valid_position(target):

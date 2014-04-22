@@ -2,7 +2,67 @@ import unittest
 
 from Figures import Pawn, Knight, Bishop, Rook, Queen, King
 
-from Board import Board
+from Board import Board, ValidMoves
+
+
+class TestValidMoves(unittest.TestCase):
+    def setUp(self):
+        self.board = Board()
+        for index in range(ord('A'), ord('H') + 1):
+            position = '{}2'.format(chr(index))
+            self.board[position] = ''
+
+    def test_pawn_move(self):
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'A7', 'A6', 'Black'))
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'c7', 'c5', 'Black'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'c7', 'd5', 'Black'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'cd7', 'csd5', 'Black'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'c7', 'c5', 'White'))
+        self.board['d6'] = Queen('White')
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'e7', 'd6', 'Black'))
+        self.board['d6'] = ''
+
+    def test_rook_move(self):
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'A1', 'a5', 'White'))
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'A1', 'a6', 'White'))
+        self.assertFalse(ValidMoves
+                         .rook_valid_move(self.board, 'A1', 'a7', 'White'))
+        self.board['a3'] = King('White')
+        self.assertFalse(ValidMoves
+                         .rook_valid_move(self.board, 'A1', 'a3', 'White'))
+        self.assertFalse(ValidMoves
+                         .rook_valid_move(self.board, 'A1', 'a5', 'White'))
+        self.board['a2'] = Rook('White')
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'A2', 'e2', 'White'))
+        self.assertFalse(ValidMoves
+                         .rook_valid_move(self.board, 'A2', 'c4', 'White'))
+        self.board['a3'] = ''
+        self.board['a2'] = ''
+
+    def test_knight_move(self):
+        #TODO: write test case scenarios for knight moves
+        pass
+
+    def test_bishop_move(self):
+        #TODO: write test case scenarios for knight moves
+        pass
+
+    def test_queen_move(self):
+        #TODO: write test case scenarios for queen moves
+        pass
+
+    def test_king_move(self):
+        #TODO: write test case scenarios for king moves
+        pass
 
 
 class TestBoard(unittest.TestCase):
