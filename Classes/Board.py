@@ -9,6 +9,10 @@ class ValidMoves:
     def valid_position(position):
         return re.match(r'^[a-hA-H][1-8]$', position)
 
+    def instance_on_target(board, target, colour):
+        return (isinstance(board[target], Figure) and
+                board[target]._colour == colour)
+
     #TODO: pawns can start with a double move..
     @classmethod
     def pawn_valid_move(self, board, origin, target, colour):
