@@ -26,6 +26,8 @@ However there are few ideas that might come to life if everything goes well:
 Goals for the second milestone
 ------------------------------
 
-To have working move validations for every figure.
-To make thorough tests.
-To have at least started work on the consol UI.
+    1) To have working move validations for every figure.
+
+    2) To have thorough tests.
+
+    3) To have at least started work on the console UI.
