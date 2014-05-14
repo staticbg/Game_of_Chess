@@ -1,11 +1,8 @@
 CHESS
 =====
 
-Python course project - Chess
------------------------------
-
 The idea
-========
+--------
 
 To make the popular game of Chess (by the rules in wikipedia -
 http://en.wikipedia.org/wiki/Chess)
@@ -27,7 +24,7 @@ However there are few ideas that might come to life if everything goes well:
 
 
 Goals for the second milestone
-==============================
+------------------------------
 
 To have working move validations for every figure.
 To make thorough tests.
