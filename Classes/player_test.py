@@ -1,8 +1,8 @@
 import unittest
 
-from Player import Player
+from player import Player
 
-from Figures import LostFigures
+from figures import LostFigures
 
 
 class TestPlayer(unittest.TestCase):

@@ -1,4 +1,4 @@
-from Figures import LostFigures
+from figures import LostFigures
 
 
 class Player:

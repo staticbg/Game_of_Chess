@@ -1,6 +1,6 @@
 import unittest
 
-from Figures import Pawn, Knight, Bishop, Rook, Queen, King, LostFigures
+from figures import Pawn, Knight, Bishop, Rook, Queen, King, LostFigures
 
 
 class TestFigures(unittest.TestCase):

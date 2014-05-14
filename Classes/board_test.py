@@ -1,8 +1,8 @@
 import unittest
 
-from Figures import Pawn, Knight, Bishop, Rook, Queen, King
+from figures import Pawn, Knight, Bishop, Rook, Queen, King
 
-from Board import Board, ValidMoves
+from board import Board, ValidMoves
 
 
 class TestValidMoves(unittest.TestCase):

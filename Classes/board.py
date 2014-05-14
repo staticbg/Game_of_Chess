@@ -1,6 +1,6 @@
 import re
 
-from Figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
+from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 
 #BIG TODO: Fix the isinstance bullshit
