@@ -15,7 +15,7 @@ class ValidMoves:
 
     #TODO: pawns can start with a double move..
     @classmethod
-    def pawn_valid_move(self, board, origin, target, colour):
+    def pawn_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if target[0] == origin[0] and\
                target[1] == '{}'.format(int(origin[1]) + 1) and\
@@ -25,7 +25,7 @@ class ValidMoves:
                     target[0] == '{}'.format(chr(ord(origin[1]) - 1)) and\
                     target[1] == '{}'.format(int(origin[1]) + 1) and\
                     isinstance(board[target], Figure) and\
-                    board[target]._colour != colour:
+                    board[target]._colour != board[origin]._colour:
                 return True
             else:
                 return False
@@ -33,10 +33,10 @@ class ValidMoves:
             return False
 
     @classmethod
-    def rook_valid_move(self, board, origin, target, colour):
+    def rook_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != colour:
+               board[target]._colour != board[origin]._colour:
                 # TODO: add uggly algorithm
                 return True
             else:
@@ -45,10 +45,11 @@ class ValidMoves:
             return False
 
     @classmethod
-    def knight_valid_move(self, board, origin, target, colour):
+    def knight_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != colour:
+               board[target]._colour != board[origin]._colour or\
+               board[target] == '':
                 return (target == '{}{}'
                         .format(chr(ord(origin[0]) + 2), origin[1] + 1) or
                         target == '{}{}'
@@ -71,10 +72,10 @@ class ValidMoves:
             return False
 
     @classmethod
-    def bishop_valid_move(self, board, origin, target, colour):
+    def bishop_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != colour:
+               board[target]._colour != board[origin]._colour:
                # TODO: add uggly algorithm
                 return True
             else:
@@ -83,10 +84,10 @@ class ValidMoves:
             return False
 
     @classmethod
-    def queen_valid_move(self, board, origin, target, colour):
+    def queen_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != colour:
+               board[target]._colour != board[origin]._colour:
                # TODO: add uggly algorithm
                 return True
             else:
@@ -95,10 +96,10 @@ class ValidMoves:
             return False
 
     @classmethod
-    def king_valid_move(self, board, origin, target, colour):
+    def king_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != colour:
+               board[target]._colour != board[origin]._colour:
                # TODO: add uggly algorithm
                 return True
             else:
@@ -129,6 +130,9 @@ class Board:
 
     def __getitem__(self, position):
         return self._board[8 - int(position[1])][ord(position[0].upper()) - 65]
+
+    def __setitem__(self, position, figure):
+        self._board[8 - int(position[1])][ord(position[0].upper()) - 65] = figure
 
     def __str__(self):
         result = ''

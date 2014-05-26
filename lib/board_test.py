@@ -14,37 +14,37 @@ class TestValidMoves(unittest.TestCase):
 
     def test_pawn_move(self):
         self.assertTrue(ValidMoves
-                        .pawn_valid_move(self.board, 'A7', 'A6', 'Black'))
+                        .pawn_valid_move(self.board, 'A7', 'A6'))
         self.assertTrue(ValidMoves
-                        .pawn_valid_move(self.board, 'c7', 'c5', 'Black'))
+                        .pawn_valid_move(self.board, 'c7', 'c5'))
         self.assertFalse(ValidMoves
-                         .pawn_valid_move(self.board, 'c7', 'd5', 'Black'))
+                         .pawn_valid_move(self.board, 'c7', 'd5'))
         self.assertFalse(ValidMoves
-                         .pawn_valid_move(self.board, 'cd7', 'csd5', 'Black'))
+                         .pawn_valid_move(self.board, 'cd7', 'csd5'))
         self.assertFalse(ValidMoves
-                         .pawn_valid_move(self.board, 'c7', 'c5', 'White'))
+                         .pawn_valid_move(self.board, 'c7', 'c5'))
         self.board['d6'] = Queen('White')
         self.assertTrue(ValidMoves
-                        .pawn_valid_move(self.board, 'e7', 'd6', 'Black'))
+                        .pawn_valid_move(self.board, 'e7', 'd6'))
         self.board['d6'] = ''
 
     def test_rook_move(self):
         self.assertTrue(ValidMoves
-                        .rook_valid_move(self.board, 'A1', 'a5', 'White'))
+                        .rook_valid_move(self.board, 'A1', 'a5'))
         self.assertTrue(ValidMoves
-                        .rook_valid_move(self.board, 'A1', 'a6', 'White'))
+                        .rook_valid_move(self.board, 'A1', 'a6'))
         self.assertFalse(ValidMoves
-                         .rook_valid_move(self.board, 'A1', 'a7', 'White'))
+                         .rook_valid_move(self.board, 'A1', 'a7'))
         self.board['a3'] = King('White')
         self.assertFalse(ValidMoves
-                         .rook_valid_move(self.board, 'A1', 'a3', 'White'))
+                         .rook_valid_move(self.board, 'A1', 'a3'))
         self.assertFalse(ValidMoves
-                         .rook_valid_move(self.board, 'A1', 'a5', 'White'))
+                         .rook_valid_move(self.board, 'A1', 'a5'))
         self.board['a2'] = Rook('White')
         self.assertTrue(ValidMoves
-                        .rook_valid_move(self.board, 'A2', 'e2', 'White'))
+                        .rook_valid_move(self.board, 'A2', 'e2'))
         self.assertFalse(ValidMoves
-                         .rook_valid_move(self.board, 'A2', 'c4', 'White'))
+                         .rook_valid_move(self.board, 'A2', 'c4'))
         self.board['a3'] = ''
         self.board['a2'] = ''
 
