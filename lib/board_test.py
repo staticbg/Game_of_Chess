@@ -33,7 +33,7 @@ class TestValidMoves(unittest.TestCase):
                         .rook_valid_move(self.board, 'A1', 'a5'))
         self.assertTrue(ValidMoves
                         .rook_valid_move(self.board, 'A1', 'a6'))
-        self.assertTrue(ValidMoves
+        self.assertFalse(ValidMoves
                         .rook_valid_move(self.board, 'A1', 'a7'))
         self.board['a3'] = King('White')
         self.assertFalse(ValidMoves
