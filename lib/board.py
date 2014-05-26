@@ -36,9 +36,36 @@ class ValidMoves:
     def rook_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour:
-                # TODO: add uggly algorithm
-                return True
+               board[target]._colour != board[origin]._colour or\
+               board[target] == '':
+                figure_on_the_way = False
+                if target[1] == origin[1] and ord(origin[0]) < ord(target[0]):
+                    origin[0] = chr(ord(origin[0]) + 1)
+                    while origin[0] != target[0]:
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                        origin[0] = chr(ord(origin[0]) + 1)
+                elif target[1] == origin[1] and ord(origin[0]) > ord(target[0]):
+                    origin[0] = chr(ord(origin[0]) - 1)
+                    while origin[0] != target[0]:
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                        origin[0] = chr(ord(origin[0]) - 1)
+                elif target[0] == origin[0] and origin[1] < target[1]:
+                    origin[1] = int(origin[1] + 1)
+                    while origin[1] != int(target[1]):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                        origin[1] = int(origin[1]) + 1
+                elif target[0] == origin[0] and origin[1] > target[1]:
+                    origin[1] = int(origin[1] - 1)
+                    while origin[1] != int(target[1]):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                        origin[1] = int(origin[1]) - 1
+                else:
+                    figure_on_the_way = True
+                return not figure_on_the_way
             else:
                 return False
         else:
