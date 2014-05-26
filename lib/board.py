@@ -51,21 +51,21 @@ class ValidMoves:
                board[target]._colour != board[origin]._colour or\
                board[target] == '':
                 return (target == '{}{}'
-                        .format(chr(ord(origin[0]) + 2), origin[1] + 1) or
+                        .format(chr(ord(origin[0]) + 2), int(origin[1]) + 1) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) + 2), origin[1] - 1) or
+                        .format(chr(ord(origin[0]) + 2), int(origin[1]) - 1) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) - 2), origin[1] + 1) or
+                        .format(chr(ord(origin[0]) - 2), int(origin[1]) + 1) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) - 2), origin[1] - 1) or
+                        .format(chr(ord(origin[0]) - 2), int(origin[1]) - 1) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) + 1), origin[1] + 2) or
+                        .format(chr(ord(origin[0]) + 1), int(origin[1]) + 2) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) + 1), origin[1] - 2) or
+                        .format(chr(ord(origin[0]) + 1), int(origin[1]) - 2) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) - 1), origin[1] + 2) or
+                        .format(chr(ord(origin[0]) - 1), int(origin[1]) + 2) or
                         target == '{}{}'
-                        .format(chr(ord(origin[0]) - 1), origin[1] - 2))
+                        .format(chr(ord(origin[0]) - 1), int(origin[1]) - 2))
             else:
                 return False
         else:

@@ -49,8 +49,39 @@ class TestValidMoves(unittest.TestCase):
         self.board['a2'] = ''
 
     def test_knight_move(self):
-        #TODO: write test case scenarios for knight moves
-        pass
+        self.board['c4'] = Knight('White')
+        self.board['b2'] = Queen('White')
+        self.board['e5'] = Pawn('White')
+        self.board['a5'] = Pawn('Black')
+        self.board['b6'] = Pawn('Black')
+        self.board['e3'] = Pawn('Black')
+
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'd2'))
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'd6'))
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'a3'))
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'a5'))
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'b6'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'b2'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'e5'))
+        self.assertTrue(ValidMoves
+                        .knight_valid_move(self.board, 'c4', 'e3'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'c5'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'c3'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'b5'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'h1'))
+        self.assertFalse(ValidMoves
+                         .knight_valid_move(self.board, 'c4', 'c9'))
 
     def test_bishop_move(self):
         #TODO: write test case scenarios for knight moves
