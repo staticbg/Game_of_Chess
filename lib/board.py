@@ -128,9 +128,56 @@ class ValidMoves:
     def bishop_valid_move(cls, board, origin, target):
         if cls.valid_position(origin) and cls.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour:
-               # TODO: add uggly algorithm
-                return True
+               board[target]._colour != board[origin]._colour or\
+               board[target] == '':
+                figure_on_the_way = False
+                if chr(ord(origin[0].upper())) > chr(ord(target[0].upper()))\
+                   and int(origin[1]) > int(target[1]):
+                    origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                           int(origin[1]) - 1)
+                    while origin[0].upper() != chr(ord(target[0].upper())):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                            origin = '{}{}'.format(target[0], origin[1])
+                        else:
+                            origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                                   int(origin[1]) - 1)
+                elif chr(ord(origin[0].upper())) < chr(ord(target[0].upper()))\
+                        and int(origin[1]) > int(target[1]):
+                    origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                           int(origin[1]) - 1)
+                    while origin[0].upper() != chr(ord(target[0].upper())):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                            origin = '{}{}'.format(target[0], origin[1])
+                        else:
+                            origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                                   int(origin[1]) - 1)
+                elif chr(ord(origin[0].upper())) > chr(ord(target[0].upper()))\
+                        and int(origin[1]) < int(target[1]):
+                    origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                           int(origin[1]) + 1)
+                    while origin[0].upper() != chr(ord(target[0].upper())):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                            origin = '{}{}'.format(target[0], origin[1])
+                        else:
+                            origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                                   int(origin[1]) + 1)
+                elif chr(ord(origin[0].upper())) < chr(ord(target[0].upper()))\
+                        and int(origin[1]) < int(target[1]):
+                    origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                           int(origin[1]) + 1)
+                    while origin[0].upper() != chr(ord(target[0].upper())):
+                        if isinstance(board[origin], Figure):
+                            figure_on_the_way = True
+                            origin = '{}{}'.format(target[0], origin[1])
+                        else:
+                            origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                                   int(origin[1]) + 1)
+                else:
+                    figure_on_the_way = True
+                return not figure_on_the_way
             else:
                 return False
         else:
