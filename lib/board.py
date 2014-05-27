@@ -239,17 +239,12 @@ class ValidMoves:
 
     @classmethod
     def king_valid_move(cls, board, origin, target):
-        if ValidMoves.valid_origin_and_target(origin, target):
-            if ValidMoves.valid_castling(board, origin, target):
-                return True
-            elif ValidMoves.can_step_on_target(board, origin, target):
-                    return ord(origin[0].upper()) - ord(target[0].upper())\
-                        in range(-1, 2) and\
-                        int(origin[1]) - int(target[1]) in range(-1, 2)
-            else:
-                return False
-        else:
-            return False
+        return ValidMoves.valid_origin_and_target(origin, target) and\
+            (ValidMoves.valid_castling(board, origin, target) or\
+            (ValidMoves.can_step_on_target(board, origin, target) and
+             ord(origin[0].upper()) - ord(target[0].upper())\
+             in range(-1, 2) and\
+             int(origin[1]) - int(target[1]) in range(-1, 2)))
 
 
 class Board:
