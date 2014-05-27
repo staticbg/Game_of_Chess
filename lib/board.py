@@ -18,6 +18,24 @@ class ValidMoves:
             board[target]._colour != board[origin]._colour or\
             board[target] == ''
 
+    # TODO: check if the way for the castling is free
+    def valid_castling(board, origin, target):
+        return (origin.upper() == 'E1' and
+                (target.upper() == 'H1' or target.upper() == 'A1') or
+                target.upper() == 'E1'and
+                (origin.upper() == 'H1' or origin.upper() == 'A1') or
+                origin.upper() == 'E8' and
+                (target.upper() == 'H8' or target.upper() == 'A8') or
+                target.upper() == 'E8' and
+                (origin.upper() == 'H8' or origin.upper() == 'A8')) and\
+               (isinstance(board[origin], King) and
+                isinstance(board[target], Rook) or
+                isinstance(board[origin], Rook) and
+                isinstance(board[target], King)) and\
+            board[origin]._colour == board[target]._colour and\
+            board[origin]._moved is False and\
+            board[target]._moved is False
+
     # TODO: en passant special move
     @classmethod
     def pawn_valid_move(cls, board, origin, target):
