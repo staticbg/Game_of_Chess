@@ -15,8 +15,6 @@ class TestValidMoves(unittest.TestCase):
     def test_pawn_move(self):
         self.assertTrue(ValidMoves
                         .pawn_valid_move(self.board, 'A7', 'A6'))
-        self.assertTrue(ValidMoves
-                        .pawn_valid_move(self.board, 'c7', 'c5'))
         self.assertFalse(ValidMoves
                          .pawn_valid_move(self.board, 'c7', 'd5'))
         self.assertFalse(ValidMoves
@@ -25,6 +23,48 @@ class TestValidMoves(unittest.TestCase):
         self.assertTrue(ValidMoves
                         .pawn_valid_move(self.board, 'e7', 'd6'))
         self.board['d6'] = ''
+
+        self.board['c5'] = Pawn('White')
+        self.board['c6'] = Rook('White')
+        self.board['d6'] = Queen('White')
+        self.board['h5'] = Pawn('White')
+        self.board['d3'] = Pawn('White')
+        self.board['c4'] = Rook('Black')
+        self.board['d4'] = Queen('Black')
+        self.board['e4'] = Bishop('Black')
+
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'd3', 'c4'))
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'd3', 'e4'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'd3', 'd4'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'c5', 'b6'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'c5', 'c6'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'c5', 'd6'))
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'h5', 'h6'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'h5', 'h4'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'h5', 'g4'))
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'h5', 'a5'))
+
+        self.assertTrue(ValidMoves
+                        .pawn_valid_move(self.board, 'c7', 'c5'))
+
+        self.board['c6'] = ''
+        self.board['c7'] = ''
+        self.board['d7'] = ''
+        self.board['h5'] = ''
+        self.board['d3'] = ''
+        self.board['c4'] = ''
+        self.board['d4'] = ''
+        self.board['e4'] = ''
 
     def test_rook_move(self):
         self.assertTrue(ValidMoves
