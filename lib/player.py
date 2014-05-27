@@ -7,7 +7,7 @@ class Player:
         self._lost_figures = LostFigures()
 
     def __str__(self):
-        return 'Player {}'.format(_name)
+        return 'Player {}'.format(self._name)
 
     def __repr__(self):
-        return _name
+        return self._name

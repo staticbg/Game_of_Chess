@@ -305,9 +305,11 @@ class ValidMoves:
                                                                  index)):
                             valid_king_moves.append('{}{}'.format(chr(letter),
                                                                   index))
-
-        return all(ValidMoves.is_in_check(board, colour, king_move)
-                   for king_move in valid_king_moves)
+        if valid_king_moves == []:
+            return False
+        else:
+            return all(ValidMoves.is_in_check(board, colour, king_move)
+                       for king_move in valid_king_moves)
 
 
 class Board:
