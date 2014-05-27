@@ -30,4 +30,4 @@ Goals for the second milestone
 
     2) To have thorough tests.
 
-    3) To have at least started work on the console UI.
+    3) To have at least started working on the console UI.
