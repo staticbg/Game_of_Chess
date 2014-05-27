@@ -387,12 +387,14 @@ class TestCheckMate(unittest.TestCase):
                          .is_in_check(self.board, 'Black'))
 
         self.board['d5'] = ''
-        self.board['d6'] = King('Black')
+        self.board['c6'] = King('Black')
 
+        self.assertTrue(ValidMoves
+                        .valid_move(self.board, 'c2', 'c6'))
         self.assertTrue(ValidMoves
                         .is_in_check(self.board, 'Black'))
 
-        self.board['d6'] = ''
+        self.board['c6'] = ''
         self.board['c2'] = ''
 
 

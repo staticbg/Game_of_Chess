@@ -246,6 +246,22 @@ class ValidMoves:
               in range(-1, 2) and
               int(origin[1]) - int(target[1]) in range(-1, 2)))
 
+    def valid_move(board, origin, target):
+        if isinstance(board[origin], Pawn):
+            return ValidMoves.pawn_valid_move(board, origin, target)
+        elif isinstance(board[origin], Rook):
+            return ValidMoves.rook_valid_move(board, origin, target)
+        elif isinstance(board[origin], Knight):
+            return ValidMoves.knight_valid_move(board, origin, target)
+        elif isinstance(board[origin], Bishop):
+            return ValidMoves.bishop_valid_move(board, origin, target)
+        elif isinstance(board[origin], Queen):
+            return ValidMoves.queen_valid_move(board, origin, target)
+        elif isinstance(board[origin], King):
+            return ValidMoves.king_valid_move(board, origin, target)
+        else:
+            return False
+
     @classmethod
     def is_in_check(cls, board, colour):
         for letter in range(ord('A'), ord('H') + 1):
@@ -256,15 +272,16 @@ class ValidMoves:
                     king_position = '{}{}'.format(chr(letter), index)
 
         king_in_check = False
+
         for letter in range(ord('A'), ord('H') + 1):
             for index in range(1, 9):
                 if isinstance(board['{}{}'.format(chr(letter), index)],
                               Figure) and\
                    board['{}{}'.format(chr(letter), index)]._colour != colour:
-                   # TODO: add method to decide witch validation to call
-                    if ValidMoves(board,
-                                  '{}{}'
-                                  .format(chr(letter), index), king_position):
+
+                    if ValidMoves.valid_move(board, '{}{}'
+                                             .format(chr(letter), index),
+                                             king_position):
                         king_in_check = True
 
         return king_in_check
