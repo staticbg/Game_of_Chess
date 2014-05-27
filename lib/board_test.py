@@ -26,7 +26,6 @@ class TestValidMoves(unittest.TestCase):
                         .pawn_valid_move(self.board, 'e7', 'd6'))
         self.board['d6'] = ''
 
-    '''
     def test_rook_move(self):
         self.assertTrue(ValidMoves
                         .rook_valid_move(self.board, 'A1', 'a5'))
@@ -76,7 +75,7 @@ class TestValidMoves(unittest.TestCase):
         self.board['c3'] = ''
         self.board['c7'] = ''
         self.board['d4'] = ''
-        self.board['e3'] = '' '''
+        self.board['e3'] = ''
 
     def test_knight_move(self):
         self.board['c4'] = Knight('White')
