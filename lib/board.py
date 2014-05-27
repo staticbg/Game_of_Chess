@@ -246,6 +246,28 @@ class ValidMoves:
               in range(-1, 2) and
               int(origin[1]) - int(target[1]) in range(-1, 2)))
 
+    @classmethod
+    def is_on_check(cls, board, colour):
+        for letter in range(ord('A'), ord('H') + 1):
+            for index in range(1, 9):
+                if isinstance(board['{}{}'.format(chr(letter), index)], King)\
+                   and board['{}{}'
+                             .format(chr(letter), index)]._colour == colour:
+                    king_position = '{}{}'.format(chr(letter), index)
+
+        king_on_check = False
+        for letter in range(ord('A'), ord('H') + 1):
+            for index in range(1, 9):
+                if isinstance(board['{}{}'.format(chr(letter), index)],
+                              Figure) and\
+                   board['{}{}'.format(chr(letter), index)]._colour != colour:
+                    if ValidMove(board,
+                                 '{}{}'
+                                 .format(chr(letter), index), king_position):
+                        king_on_check = True
+
+        return king_on_check
+
 
 class Board:
     def __init__(self):
