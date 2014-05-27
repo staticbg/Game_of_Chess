@@ -16,6 +16,7 @@ class Figure:
 class Pawn(Figure):
     def __init__(self, colour):
         self._colour = colour
+        self._moved = False
         self._symbol = '\033[3{}mP\033[0m'.format(7*(colour == 'White'))
 
 
@@ -34,6 +35,7 @@ class Bishop(Figure):
 class Rook(Figure):
     def __init__(self, colour):
         self._colour = colour
+        self._moved = False
         self._symbol = '\033[3{}mR\033[0m'.format(7*(colour == 'White'))
 
 
@@ -46,6 +48,7 @@ class Queen(Figure):
 class King(Figure):
     def __init__(self, colour):
         self._colour = colour
+        self._moved = False
         self._symbol = '\033[3{}mK\033[0m'.format(7*(colour == 'White'))
 
 

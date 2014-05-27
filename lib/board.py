@@ -18,15 +18,29 @@ class ValidMoves:
             board[target]._colour != board[origin]._colour or\
             board[target] == ''
 
-    # TODO: pawns can start with a double move.. and en passant special move
+    # TODO: en passant special move
     @classmethod
     def pawn_valid_move(cls, board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
             if board[origin]._colour == 'Black' and\
+               board[origin]._moved is False and\
                origin[0].upper() == target[0].upper() and\
-               int(origin[1]) == int(target[1]) + 1 and not\
-               isinstance(board[target], Figure):
+               int(origin[1]) == int(target[1]) + 2 and\
+               board[target] == '' and\
+               board['{}{}'.format(target[0], int(target[1]) + 1)] == '':
                 return True
+            elif board[origin]._colour == 'White' and\
+                    board[origin]._moved is False and\
+                    origin[0].upper() == target[0].upper() and\
+                    int(origin[1]) == int(target[1]) - 2 and\
+                    board[target] == '' and\
+                    board['{}{}'.format(target[0], int(target[1]) - 1)] == '':
+                        return True
+            elif board[origin]._colour == 'Black' and\
+                    origin[0].upper() == target[0].upper() and\
+                    int(origin[1]) == int(target[1]) + 1 and not\
+                    isinstance(board[target], Figure):
+                        return True
             elif board[origin]._colour == 'White' and\
                     origin[0].upper() == target[0].upper() and\
                     int(origin[1]) == int(target[1]) - 1 and not\
