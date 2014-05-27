@@ -401,6 +401,22 @@ class TestCheckMate(unittest.TestCase):
         self.board['c6'] = ''
         self.board['c2'] = ''
 
+    def test_checkmate(self):
+        self.board['D5'] = King('Black')
+        self.board['c2'] = Queen('White')
+        self.board['a4'] = Rook('White')
+        self.board['a6'] = Rook('White')
+
+        self.assertFalse(ValidMoves.is_in_checkmate(self.board, 'Black'))
+
+        self.board['g3'] = Bishop('White')
+
+        self.assertTrue(ValidMoves
+                        .is_in_checkmate(self.board, 'Black'))
+
+        self.board['c6'] = ''
+        self.board['c2'] = ''
+
 
 class TestBoard(unittest.TestCase):
     def test_get_item(self):

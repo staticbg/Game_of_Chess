@@ -296,7 +296,8 @@ class ValidMoves:
 
         for letter in range(ord(king_position[0]) - 1,
                             ord(king_position[0]) + 2):
-            for index in range(king_position[1] - 1, king_position[1] + 2):
+            for index in range(int(king_position[1]) - 1,
+                               int(king_position[1]) + 2):
                 if ValidMoves.valid_position('{}{}'.format(chr(letter),
                                                            index)) and\
                         ValidMoves.king_valid_move(board, king_position,
