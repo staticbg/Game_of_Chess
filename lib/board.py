@@ -9,10 +9,19 @@ class ValidMoves:
     def valid_position(position):
         return re.match(r'^[a-hA-H][1-8]$', position)
 
+    def valid_origin_and_target(origin, target):
+        return ValidMoves.valid_position(origin) and\
+            ValidMoves.valid_position(target)
+
+    def can_step_on_target(board, origin, target):
+        return isinstance(board[target], Figure) and\
+            board[target]._colour != board[origin]._colour or\
+            board[target] == ''
+
     # TODO: pawns can start with a double move.. and en passant special move
     @classmethod
     def pawn_valid_move(cls, board, origin, target):
-        if cls.valid_position(origin) and cls.valid_position(target):
+        if ValidMoves.valid_origin_and_target(origin, target):
             if board[origin]._colour == 'Black' and\
                origin[0].upper() == target[0].upper() and\
                int(origin[1]) == int(target[1]) + 1 and not\
@@ -44,10 +53,8 @@ class ValidMoves:
 
     @classmethod
     def rook_valid_move(cls, board, origin, target):
-        if cls.valid_position(origin) and cls.valid_position(target):
-            if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour or\
-               board[target] == '':
+        if ValidMoves.valid_origin_and_target(origin, target):
+            if ValidMoves.can_step_on_target(board, origin, target):
                 figure_on_the_way = False
                 if target[1] == origin[1] and\
                    ord(origin[0].upper()) < ord(target[0].upper()):
@@ -99,37 +106,29 @@ class ValidMoves:
 
     @classmethod
     def knight_valid_move(cls, board, origin, target):
-        if cls.valid_position(origin) and cls.valid_position(target):
-            if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour or\
-               board[target] == '':
-                return (target == '{}{}'
-                        .format(chr(ord(origin[0]) + 2), int(origin[1]) + 1) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) + 2), int(origin[1]) - 1) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) - 2), int(origin[1]) + 1) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) - 2), int(origin[1]) - 1) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) + 1), int(origin[1]) + 2) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) + 1), int(origin[1]) - 2) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) - 1), int(origin[1]) + 2) or
-                        target == '{}{}'
-                        .format(chr(ord(origin[0]) - 1), int(origin[1]) - 2))
-            else:
-                return False
-        else:
-            return False
+        return ValidMoves.valid_origin_and_target(origin, target) and\
+            ValidMoves.can_step_on_target(board, origin, target) and\
+            (target == '{}{}'
+             .format(chr(ord(origin[0]) + 2), int(origin[1]) + 1) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) + 2), int(origin[1]) - 1) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) - 2), int(origin[1]) + 1) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) - 2), int(origin[1]) - 1) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) + 1), int(origin[1]) + 2) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) + 1), int(origin[1]) - 2) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) - 1), int(origin[1]) + 2) or
+             target == '{}{}'
+             .format(chr(ord(origin[0]) - 1), int(origin[1]) - 2))
 
     @classmethod
     def bishop_valid_move(cls, board, origin, target):
-        if cls.valid_position(origin) and cls.valid_position(target):
-            if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour or\
-               board[target] == '':
+        if ValidMoves.valid_origin_and_target(origin, target):
+            if ValidMoves.can_step_on_target(board, origin, target):
                 figure_on_the_way = False
                 if (ord(origin[0].upper()) - ord(target[0].upper())) ==\
                    (int(origin[1]) - int(target[1])) or\
@@ -191,20 +190,16 @@ class ValidMoves:
 
     @classmethod
     def queen_valid_move(cls, board, origin, target):
-        return cls.rook_valid_move(board, origin, target)\
-            or cls.bishop_valid_move(board, origin, target)
+        return ValidMoves.rook_valid_move(board, origin, target)\
+            or ValidMoves.bishop_valid_move(board, origin, target)
 
     @classmethod
     def king_valid_move(cls, board, origin, target):
-        if cls.valid_position(origin) and cls.valid_position(target):
-            if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour or\
-               board[target] == '':
+        if ValidMoves.valid_origin_and_target(origin, target) and\
+           ValidMoves.can_step_on_target(board, origin, target):
                 return ord(origin[0].upper()) - ord(target[0].upper())\
                     in range(-1, 2) and\
                     int(origin[1]) - int(target[1]) in range(-1, 2)
-            else:
-                return False
         else:
             return False
 
