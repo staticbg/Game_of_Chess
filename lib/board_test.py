@@ -315,6 +315,36 @@ class TestValidMoves(unittest.TestCase):
         self.board['c5'] = ''
 
 
+class TestSpecialMoves(unittest.TestCase):
+    def setUp(self):
+        self.board = Board()
+        for index in range(ord('A'), ord('H') + 1):
+            position = '{}1'.format(chr(index))
+            self.board[position] = ''
+
+    def test_castling_move(self):
+        self.board['e1'] = King('White')
+        self.board['a1'] = Rook('White')
+        self.board['h1'] = Rook('White')
+
+        self.assertTrue(ValidMoves
+                        .valid_castling(self.board, 'e1', 'a1'))
+        self.assertTrue(ValidMoves
+                        .valid_castling(self.board, 'e1', 'h1'))
+        self.board['f1'] = Queen('White')
+        self.assertFalse(ValidMoves
+                         .valid_castling(self.board, 'e1', 'h1'))
+        self.assertTrue(ValidMoves
+                        .castling_free_way(self.board, 'a1', 'e1'))
+        self.assertFalse(ValidMoves
+                         .castling_free_way(self.board, 'h1', 'e1'))
+
+        self.board['e1'] = ''
+        self.board['a1'] = ''
+        self.board['h1'] = ''
+        self.board['f1'] = ''
+
+
 class TestBoard(unittest.TestCase):
     def test_get_item(self):
         board = Board()

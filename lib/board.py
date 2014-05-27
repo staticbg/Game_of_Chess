@@ -18,6 +18,16 @@ class ValidMoves:
             board[target]._colour != board[origin]._colour or\
             board[target] == ''
 
+    def castling_free_way(board, origin, target):
+        free_way = True
+        if ord(origin[0].upper()) > ord(target[0].upper()):
+            origin, target = target, origin
+        for letter in range(ord(origin[0].upper()) + 1,
+                            ord(target[0].upper())):
+            if board['{}{}'.format(chr(letter), origin[1])] != '':
+                free_way = False
+        return free_way
+
     # TODO: check if the way for the castling is free
     def valid_castling(board, origin, target):
         return (origin.upper() == 'E1' and
@@ -34,7 +44,8 @@ class ValidMoves:
                 isinstance(board[target], King)) and\
             board[origin]._colour == board[target]._colour and\
             board[origin]._moved is False and\
-            board[target]._moved is False
+            board[target]._moved is False and\
+            ValidMoves.castling_free_way(board, origin, target)
 
     # TODO: en passant special move
     @classmethod
