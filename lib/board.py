@@ -262,14 +262,16 @@ class ValidMoves:
         else:
             return False
 
-    @classmethod
-    def is_in_check(cls, board, colour):
+    def get_king_position(board, colour):
         for letter in range(ord('A'), ord('H') + 1):
             for index in range(1, 9):
                 if isinstance(board['{}{}'.format(chr(letter), index)], King)\
                    and board['{}{}'
                              .format(chr(letter), index)]._colour == colour:
-                    king_position = '{}{}'.format(chr(letter), index)
+                    return '{}{}'.format(chr(letter), index)
+
+    @classmethod
+    def is_in_check(cls, board, colour, king_position):
 
         king_in_check = False
 
@@ -285,6 +287,26 @@ class ValidMoves:
                         king_in_check = True
 
         return king_in_check
+
+    @classmethod
+    def is_in_checkmate(cls, board, colour):
+        king_position = ValidMoves.get_king_position(board, colour)
+
+        valid_king_moves = []
+
+        for letter in range(ord(king_position[0]) - 1,
+                            ord(king_position[0]) + 2):
+            for index in range(king_position[1] - 1, king_position[1] + 2):
+                if ValidMoves.valid_position('{}{}'.format(chr(letter),
+                                                           index)) and\
+                        ValidMoves.king_valid_move(board, king_position,
+                                                   '{}{}'.format(chr(letter),
+                                                                 index)):
+                            valid_king_moves.append('{}{}'.format(chr(letter),
+                                                                  index))
+
+        return all(ValidMoves.is_in_check(board, colour, king_move)
+                   for king_move in valid_king_moves)
 
 
 class Board:

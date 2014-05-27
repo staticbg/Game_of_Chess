@@ -384,7 +384,9 @@ class TestCheckMate(unittest.TestCase):
         self.board['c2'] = Queen('White')
 
         self.assertFalse(ValidMoves
-                         .is_in_check(self.board, 'Black'))
+                         .is_in_check(self.board, 'Black',
+                                      ValidMoves.get_king_position(self.board,
+                                                                   'Black')))
 
         self.board['d5'] = ''
         self.board['c6'] = King('Black')
@@ -392,7 +394,9 @@ class TestCheckMate(unittest.TestCase):
         self.assertTrue(ValidMoves
                         .valid_move(self.board, 'c2', 'c6'))
         self.assertTrue(ValidMoves
-                        .is_in_check(self.board, 'Black'))
+                        .is_in_check(self.board, 'Black',
+                                     ValidMoves.get_king_position(self.board,
+                                                                  'Black')))
 
         self.board['c6'] = ''
         self.board['c2'] = ''
