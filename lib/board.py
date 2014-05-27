@@ -198,9 +198,11 @@ class ValidMoves:
     def king_valid_move(cls, board, origin, target):
         if cls.valid_position(origin) and cls.valid_position(target):
             if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour:
-               # TODO: add uggly algorithm
-                return True
+               board[target]._colour != board[origin]._colour or\
+               board[target] == '':
+                return ord(origin[0].upper()) - ord(target[0].upper())\
+                    in range(-1, 2) and\
+                    int(origin[1]) - int(target[1]) in range(-1, 2)
             else:
                 return False
         else:

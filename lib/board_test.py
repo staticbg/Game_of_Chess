@@ -256,8 +256,42 @@ class TestValidMoves(unittest.TestCase):
         self.board['b2'] = ''
 
     def test_king_move(self):
-        #TODO: write test case scenarios for king moves
-        pass
+        for index in range(ord('A'), ord('H') + 1):
+            position = '{}1'.format(chr(index))
+            self.board[position] = ''
+
+        self.board['d5'] = King('Black')
+
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'd6'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'e6'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'e5'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'e4'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'd4'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'c4'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'c5'))
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'c6'))
+        self.assertFalse(ValidMoves
+                         .king_valid_move(self.board, 'd5', 'h6'))
+
+        self.board['e4'] = Pawn('Black')
+        self.board['c5'] = Pawn('White')
+
+        self.assertTrue(ValidMoves
+                        .king_valid_move(self.board, 'd5', 'c5'))
+        self.assertFalse(ValidMoves
+                         .king_valid_move(self.board, 'd5', 'e4'))
+
+        self.board['d5'] = ''
+        self.board['e4'] = ''
+        self.board['c5'] = ''
 
 
 class TestBoard(unittest.TestCase):
