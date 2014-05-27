@@ -62,7 +62,7 @@ class ValidMoves:
                 elif target[1] == origin[1] and\
                         ord(origin[0].upper()) > ord(target[0].upper()):
                     origin = '{}{}'.format(chr(ord(origin[0]) - 1), origin[1])
-                    while origin[0].upper() != chr(ord(target[0].upper()) + 1):
+                    while origin[0].upper() != chr(ord(target[0].upper())):
                         if isinstance(board[origin], Figure):
                             figure_on_the_way = True
                             origin = '{}{}'.format(target[0], origin[1])
@@ -124,6 +124,7 @@ class ValidMoves:
         else:
             return False
 
+    # TODO: fix validation of non diagonal moves
     @classmethod
     def bishop_valid_move(cls, board, origin, target):
         if cls.valid_position(origin) and cls.valid_position(target):
@@ -131,7 +132,7 @@ class ValidMoves:
                board[target]._colour != board[origin]._colour or\
                board[target] == '':
                 figure_on_the_way = False
-                if chr(ord(origin[0].upper())) > chr(ord(target[0].upper()))\
+                if ord(origin[0].upper()) > ord(target[0].upper())\
                    and int(origin[1]) > int(target[1]):
                     origin = '{}{}'.format(chr(ord(origin[0]) - 1),
                                            int(origin[1]) - 1)
@@ -142,7 +143,7 @@ class ValidMoves:
                         else:
                             origin = '{}{}'.format(chr(ord(origin[0]) - 1),
                                                    int(origin[1]) - 1)
-                elif chr(ord(origin[0].upper())) < chr(ord(target[0].upper()))\
+                elif ord(origin[0].upper()) < ord(target[0].upper())\
                         and int(origin[1]) > int(target[1]):
                     origin = '{}{}'.format(chr(ord(origin[0]) + 1),
                                            int(origin[1]) - 1)
@@ -153,7 +154,7 @@ class ValidMoves:
                         else:
                             origin = '{}{}'.format(chr(ord(origin[0]) + 1),
                                                    int(origin[1]) - 1)
-                elif chr(ord(origin[0].upper())) > chr(ord(target[0].upper()))\
+                elif ord(origin[0].upper()) > ord(target[0].upper())\
                         and int(origin[1]) < int(target[1]):
                     origin = '{}{}'.format(chr(ord(origin[0]) - 1),
                                            int(origin[1]) + 1)
@@ -164,7 +165,7 @@ class ValidMoves:
                         else:
                             origin = '{}{}'.format(chr(ord(origin[0]) - 1),
                                                    int(origin[1]) + 1)
-                elif chr(ord(origin[0].upper())) < chr(ord(target[0].upper()))\
+                elif ord(origin[0].upper()) < ord(target[0].upper())\
                         and int(origin[1]) < int(target[1]):
                     origin = '{}{}'.format(chr(ord(origin[0]) + 1),
                                            int(origin[1]) + 1)
@@ -185,8 +186,8 @@ class ValidMoves:
 
     @classmethod
     def queen_valid_move(cls, board, origin, target):
-        return rook_valid_move(cls, board, origin, target)\
-            or bishop_valid_move(cls, board, origin, traget)
+        return cls.rook_valid_move(board, origin, target)\
+            or cls.bishop_valid_move(board, origin, target)
 
     @classmethod
     def king_valid_move(cls, board, origin, target):

@@ -52,6 +52,10 @@ class TestValidMoves(unittest.TestCase):
         self.board['e3'] = Pawn('White')
 
         self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'c3', 'b3'))
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'c3', 'c4'))
+        self.assertTrue(ValidMoves
                         .rook_valid_move(self.board, 'c3', 'c2'))
         self.assertTrue(ValidMoves
                         .rook_valid_move(self.board, 'c3', 'c6'))
@@ -150,6 +154,8 @@ class TestValidMoves(unittest.TestCase):
                          .bishop_valid_move(self.board, 'd4', 'a7'))
         self.assertFalse(ValidMoves
                          .bishop_valid_move(self.board, 'd4', 'a1'))
+        self.assertFalse(ValidMoves
+                         .bishop_valid_move(self.board, 'd4', 'f7'))
 
         self.board['d4'] = ''
         self.board['f6'] = ''
@@ -157,8 +163,57 @@ class TestValidMoves(unittest.TestCase):
         self.board['b2'] = ''
 
     def test_queen_move(self):
-        #TODO: write test case scenarios for queen moves
-        pass
+        self.board['d4'] = Queen('White')
+        self.board['d2'] = Pawn('White')
+        self.board['d6'] = Pawn('Black')
+        self.board['f4'] = Pawn('Black')
+        self.board['f6'] = Pawn('White')
+        self.board['b6'] = Pawn('Black')
+        self.board['b2'] = Pawn('White')
+
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'd5'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'd3'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'c4'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'a4'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'f4'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'e5'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'd6'))
+        self.assertTrue(ValidMoves
+                        .queen_valid_move(self.board, 'd4', 'b6'))
+
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'd2'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'b2'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'f6'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'f7'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'd8'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'd1'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'a1'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'g1'))
+        self.assertFalse(ValidMoves
+                         .queen_valid_move(self.board, 'd4', 'h5'))
+
+        self.board['d4'] = ''
+        self.board['d2'] = ''
+        self.board['d6'] = ''
+        self.board['f4'] = ''
+        self.board['f6'] = ''
+        self.board['b6'] = ''
+        self.board['b2'] = ''
 
     def test_king_move(self):
         #TODO: write test case scenarios for king moves
