@@ -369,6 +369,33 @@ class TestSpecialMoves(unittest.TestCase):
         self.board['f1'] = ''
 
 
+class TestCheckMate(unittest.TestCase):
+    def setUp(self):
+        self.board = Board()
+        self.board['e8'] = ''
+        for index in range(ord('A'), ord('H') + 1):
+            position = '{}2'.format(chr(index))
+            self.board[position] = ''
+            position = '{}1'.format(chr(index))
+            self.board[position] = ''
+
+    def test_check(self):
+        self.board['D5'] = King('Black')
+        self.board['c2'] = Queen('White')
+
+        self.assertFalse(ValidMoves
+                         .is_in_check(self.board, 'Black'))
+
+        self.board['d5'] = ''
+        self.board['d6'] = King('Black')
+
+        self.assertTrue(ValidMoves
+                        .is_in_check(self.board, 'Black'))
+
+        self.board['d6'] = ''
+        self.board['c2'] = ''
+
+
 class TestBoard(unittest.TestCase):
     def test_get_item(self):
         board = Board()

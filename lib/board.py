@@ -247,7 +247,7 @@ class ValidMoves:
               int(origin[1]) - int(target[1]) in range(-1, 2)))
 
     @classmethod
-    def is_on_check(cls, board, colour):
+    def is_in_check(cls, board, colour):
         for letter in range(ord('A'), ord('H') + 1):
             for index in range(1, 9):
                 if isinstance(board['{}{}'.format(chr(letter), index)], King)\
@@ -255,18 +255,19 @@ class ValidMoves:
                              .format(chr(letter), index)]._colour == colour:
                     king_position = '{}{}'.format(chr(letter), index)
 
-        king_on_check = False
+        king_in_check = False
         for letter in range(ord('A'), ord('H') + 1):
             for index in range(1, 9):
                 if isinstance(board['{}{}'.format(chr(letter), index)],
                               Figure) and\
                    board['{}{}'.format(chr(letter), index)]._colour != colour:
-                    if ValidMove(board,
-                                 '{}{}'
-                                 .format(chr(letter), index), king_position):
-                        king_on_check = True
+                   # TODO: add method to decide witch validation to call
+                    if ValidMoves(board,
+                                  '{}{}'
+                                  .format(chr(letter), index), king_position):
+                        king_in_check = True
 
-        return king_on_check
+        return king_in_check
 
 
 class Board:
