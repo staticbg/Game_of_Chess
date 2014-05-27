@@ -335,11 +335,17 @@ class TestSpecialMoves(unittest.TestCase):
                         .king_valid_move(self.board, 'e1', 'a1'))
         self.assertTrue(ValidMoves
                         .king_valid_move(self.board, 'e1', 'h1'))
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'a1', 'e1'))
+        self.assertTrue(ValidMoves
+                        .rook_valid_move(self.board, 'h1', 'e1'))
         self.board['f1'] = Queen('White')
         self.assertFalse(ValidMoves
                          .valid_castling(self.board, 'e1', 'h1'))
         self.assertFalse(ValidMoves
                          .king_valid_move(self.board, 'e1', 'h1'))
+        self.assertFalse(ValidMoves
+                         .king_valid_move(self.board, 'h1', 'e1'))
         self.assertTrue(ValidMoves
                         .castling_free_way(self.board, 'a1', 'e1'))
         self.assertFalse(ValidMoves

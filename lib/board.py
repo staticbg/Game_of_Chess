@@ -93,7 +93,6 @@ class ValidMoves:
         else:
             return False
 
-    # TODO: add castling check
     @classmethod
     def rook_valid_move(cls, board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
@@ -142,6 +141,8 @@ class ValidMoves:
                 else:
                     figure_on_the_way = True
                 return not figure_on_the_way
+            elif ValidMoves.valid_castling(board, origin, target):
+                return True
             else:
                 return False
         else:
