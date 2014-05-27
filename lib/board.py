@@ -3,17 +3,13 @@ import re
 from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 
-#BIG TODO: Fix the isinstance bullshit
+# TODO: make validations prettier
 class ValidMoves:
 
     def valid_position(position):
         return re.match(r'^[a-hA-H][1-8]$', position)
 
-    def instance_on_target(board, target, colour):
-        return (isinstance(board[target], Figure) and
-                board[target]._colour == colour)
-
-    #TODO: pawns can start with a double move..
+    # TODO: pawns can start with a double move.. and en passant special move
     @classmethod
     def pawn_valid_move(self, board, origin, target):
         if self.valid_position(origin) and self.valid_position(target):
@@ -142,15 +138,8 @@ class ValidMoves:
 
     @classmethod
     def queen_valid_move(self, board, origin, target):
-        if self.valid_position(origin) and self.valid_position(target):
-            if isinstance(board[target], Figure) and\
-               board[target]._colour != board[origin]._colour:
-               # TODO: add uggly algorithm
-                return True
-            else:
-                return False
-        else:
-            return False
+        return rook_valid_move(self, board, origin, target)\
+            or bishop_valid_move(self, board, origin, traget)
 
     @classmethod
     def king_valid_move(self, board, origin, target):
