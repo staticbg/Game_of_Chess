@@ -28,7 +28,6 @@ class ValidMoves:
                 free_way = False
         return free_way
 
-    # TODO: check if the way for the castling is free
     def valid_castling(board, origin, target):
         return (origin.upper() == 'E1' and
                 (target.upper() == 'H1' or target.upper() == 'A1') or
@@ -94,6 +93,7 @@ class ValidMoves:
         else:
             return False
 
+    # TODO: add castling check
     @classmethod
     def rook_valid_move(cls, board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
@@ -238,11 +238,15 @@ class ValidMoves:
 
     @classmethod
     def king_valid_move(cls, board, origin, target):
-        if ValidMoves.valid_origin_and_target(origin, target) and\
-           ValidMoves.can_step_on_target(board, origin, target):
-                return ord(origin[0].upper()) - ord(target[0].upper())\
-                    in range(-1, 2) and\
-                    int(origin[1]) - int(target[1]) in range(-1, 2)
+        if ValidMoves.valid_origin_and_target(origin, target):
+            if ValidMoves.valid_castling(board, origin, target):
+                return True
+            elif ValidMoves.can_step_on_target(board, origin, target):
+                    return ord(origin[0].upper()) - ord(target[0].upper())\
+                        in range(-1, 2) and\
+                        int(origin[1]) - int(target[1]) in range(-1, 2)
+            else:
+                return False
         else:
             return False
 
