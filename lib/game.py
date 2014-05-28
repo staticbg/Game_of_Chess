@@ -49,6 +49,11 @@ class Game:
         self._board[origin], self._board[target] = '', ''
         self.next_turn()
 
+    def king_is_in_check(self):
+        return ValidMoves.is_in_check(self._board, self._turn,
+                                      ValidMoves.get_king_position(self._board,
+                                                                   self._turn))
+
     def move(self, origin, target):
         if ValidMoves.is_in_checkmate(self._board, self._turn):
             winner = str(self._player_white) * (self._turn == 'Black') +\
@@ -64,10 +69,7 @@ class Game:
                 temp_origin = self._board[origin]
                 self._board[origin] = ''
 
-                if ValidMoves\
-                   .is_in_check(self._board, self._turn,
-                                ValidMoves.get_king_position(self._board,
-                                                             self._turn)):
+                if self.king_is_in_check():
                     print("Not a valid move, your King is checked.")
                     self._board[origin] = self._board[target]
                     self._board[origin] = temp_origin
