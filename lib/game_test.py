@@ -28,5 +28,13 @@ class TestValidMoves(unittest.TestCase):
         self.assertEqual(game._board['a1'], '')
         self.assertEqual(game._board['e1'], '')
 
+    def test_resignation(self):
+        game = Game('Ivan', 'Pesho')
+        self.assertEqual(game.resign(), 'Player Pesho wins')
+
+        new_game = Game('George', 'Kristian')
+        new_game.move('a2', 'a4')
+        self.assertEqual(new_game.resign(), 'Player George wins')
+
 if __name__ == '__main__':
     unittest.main()

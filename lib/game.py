@@ -14,6 +14,12 @@ class Game:
         self._turn = 'White'
         print(str(self._board))
 
+    def resign(self):
+        return '{} wins'.format(str(self._player_white) *
+                                (self._turn == 'Black') +
+                                str(self._player_black) *
+                                (self._turn == 'White'))
+
     def next_turn(self):
         self._turn = 'Black' * (self._turn == 'White') +\
                      'White' * (self._turn == 'Black')
