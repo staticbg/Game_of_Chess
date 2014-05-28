@@ -20,6 +20,21 @@ class Game:
         else:
             self._turn = 'White'
 
+    def is_pawn_on_end(self, board, target, colour):
+        return isinstance(self._board[target], Pawn) and\
+            int(target[1]) == 1 + 7 * (colour == board[target]._colour)
+
+    def promote_pawn(self):
+        promotion = {'QUEEN': Queen, 'BISHOP': Bishop,
+                     'ROOK': Rook, 'KNIGHT': Knight}
+
+        promoted_pawn = input()
+        if promoted_pawn.upper() in ['QUEEN', 'BISHOP', 'ROOK', 'KNIGHT']:
+            return promotion[promoted_pawn.upper()]
+        else:
+            print("Please choose between queen, bishop, rook and knight")
+            return self.promote_pawn()
+
     def move(self, origin, target):
         if ValidMoves.is_in_checkmate(self._board, self._turn):
             self.next_turn()
@@ -38,6 +53,8 @@ class Game:
                     self._board[origin] = self._board[target]
                     self._board[origin] = temp_origin
                     self.next_turn()
+                if self.is_pawn_on_end(self._board, target, self._turn):
+                    self._board[target] = self.promote_pawn()(self._turn)
                 self.next_turn()
             elif ValidMoves.valid_castling(self._board, origin, target):
                 if origin[0].upper() == 'A' or target[0].upper() == 'A':
