@@ -331,14 +331,6 @@ class TestSpecialMoves(unittest.TestCase):
                         .valid_castling(self.board, 'e1', 'a1'))
         self.assertTrue(ValidMoves
                         .valid_castling(self.board, 'e1', 'h1'))
-        self.assertTrue(ValidMoves
-                        .king_valid_move(self.board, 'e1', 'a1'))
-        self.assertTrue(ValidMoves
-                        .king_valid_move(self.board, 'e1', 'h1'))
-        self.assertTrue(ValidMoves
-                        .rook_valid_move(self.board, 'a1', 'e1'))
-        self.assertTrue(ValidMoves
-                        .rook_valid_move(self.board, 'h1', 'e1'))
 
         self.board['e1']._moved = True
         self.board['h1']._moved = True

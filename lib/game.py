@@ -39,6 +39,18 @@ class Game:
                     self._board[origin] = temp_origin
                     self.next_turn()
                 self.next_turn()
+            elif ValidMoves.valid_castling(self._board, origin, target):
+                if origin[0].upper() == 'A' or target[0].upper() == 'A':
+                    self._board['d{}'.format(origin[1])]\
+                        = Rook(self._board[origin]._colour)
+                    self._board['c{}'.format(origin[1])]\
+                        = King(self._board[origin]._colour)
+                else:
+                    self._board['f{}'.format(origin[1])]\
+                        = Rook(self._board[origin]._colour)
+                    self._board['g{}'.format(origin[1])]\
+                        = King(self._board[origin]._colour)
+                self._board[origin], self._board[target] = '', ''
             else:
                 return "Not a valid move, please try again!"
         else:

@@ -28,6 +28,7 @@ class ValidMoves:
                 free_way = False
         return free_way
 
+    @staticmethod
     def valid_castling(board, origin, target):
         return (origin.upper() == 'E1' and
                 (target.upper() == 'H1' or target.upper() == 'A1') or
@@ -47,8 +48,8 @@ class ValidMoves:
             ValidMoves.castling_free_way(board, origin, target)
 
     # TODO: en passant special move
-    @classmethod
-    def pawn_valid_move(cls, board, origin, target):
+    @staticmethod
+    def pawn_valid_move(board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
             if board[origin]._colour == 'Black' and\
                board[origin]._moved is False and\
@@ -93,8 +94,8 @@ class ValidMoves:
         else:
             return False
 
-    @classmethod
-    def rook_valid_move(cls, board, origin, target):
+    @staticmethod
+    def rook_valid_move(board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
             if ValidMoves.can_step_on_target(board, origin, target):
                 figure_on_the_way = False
@@ -141,15 +142,13 @@ class ValidMoves:
                 else:
                     figure_on_the_way = True
                 return not figure_on_the_way
-            elif ValidMoves.valid_castling(board, origin, target):
-                return True
             else:
                 return False
         else:
             return False
 
-    @classmethod
-    def knight_valid_move(cls, board, origin, target):
+    @staticmethod
+    def knight_valid_move(board, origin, target):
         return ValidMoves.valid_origin_and_target(origin, target) and\
             ValidMoves.can_step_on_target(board, origin, target) and\
             (target == '{}{}'
@@ -169,8 +168,8 @@ class ValidMoves:
              target == '{}{}'
              .format(chr(ord(origin[0]) - 1), int(origin[1]) - 2))
 
-    @classmethod
-    def bishop_valid_move(cls, board, origin, target):
+    @staticmethod
+    def bishop_valid_move(board, origin, target):
         if ValidMoves.valid_origin_and_target(origin, target):
             if ValidMoves.can_step_on_target(board, origin, target):
                 figure_on_the_way = False
@@ -232,20 +231,20 @@ class ValidMoves:
         else:
             return False
 
-    @classmethod
-    def queen_valid_move(cls, board, origin, target):
+    @staticmethod
+    def queen_valid_move(board, origin, target):
         return ValidMoves.rook_valid_move(board, origin, target)\
             or ValidMoves.bishop_valid_move(board, origin, target)
 
-    @classmethod
-    def king_valid_move(cls, board, origin, target):
+    @staticmethod
+    def king_valid_move(board, origin, target):
         return ValidMoves.valid_origin_and_target(origin, target) and\
-            (ValidMoves.valid_castling(board, origin, target) or
-             (ValidMoves.can_step_on_target(board, origin, target) and
-              ord(origin[0].upper()) - ord(target[0].upper())
-              in range(-1, 2) and
-              int(origin[1]) - int(target[1]) in range(-1, 2)))
+            ValidMoves.can_step_on_target(board, origin, target) and\
+            ord(origin[0].upper()) - ord(target[0].upper())\
+            in range(-1, 2) and\
+            int(origin[1]) - int(target[1]) in range(-1, 2)
 
+    @staticmethod
     def valid_move(board, origin, target):
         if isinstance(board[origin], Pawn):
             return ValidMoves.pawn_valid_move(board, origin, target)
@@ -262,6 +261,8 @@ class ValidMoves:
         else:
             return False
 
+    # TODO: make it a Board method
+    @staticmethod
     def get_king_position(board, colour):
         for letter in range(ord('A'), ord('H') + 1):
             for index in range(1, 9):
@@ -270,8 +271,8 @@ class ValidMoves:
                              .format(chr(letter), index)]._colour == colour:
                     return '{}{}'.format(chr(letter), index)
 
-    @classmethod
-    def is_in_check(cls, board, colour, king_position):
+    @staticmethod
+    def is_in_check(board, colour, king_position):
 
         king_in_check = False
 
@@ -288,8 +289,8 @@ class ValidMoves:
 
         return king_in_check
 
-    @classmethod
-    def is_in_checkmate(cls, board, colour):
+    @staticmethod
+    def is_in_checkmate(board, colour):
         king_position = ValidMoves.get_king_position(board, colour)
 
         valid_king_moves = []
