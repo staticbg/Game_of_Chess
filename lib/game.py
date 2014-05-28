@@ -51,6 +51,7 @@ class Game:
                     self._board['g{}'.format(origin[1])]\
                         = King(self._board[origin]._colour)
                 self._board[origin], self._board[target] = '', ''
+                self.next_turn()
             else:
                 return "Not a valid move, please try again!"
         else:

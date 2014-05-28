@@ -47,105 +47,130 @@ class ValidMoves:
             board[target]._moved is False and\
             ValidMoves.castling_free_way(board, origin, target)
 
-    # TODO: en passant special move
+    def pawn_white_double_forward(board, origin, target):
+        return board[origin]._colour == 'White' and\
+            board[origin]._moved is False and\
+            origin[0].upper() == target[0].upper() and\
+            int(origin[1]) == int(target[1]) - 2 and\
+            board[target] == '' and\
+            board['{}{}'.format(target[0], int(target[1]) - 1)] == ''
+
+    def pawn_black_double_forward(board, origin, target):
+        return board[origin]._colour == 'Black' and\
+            board[origin]._moved is False and\
+            origin[0].upper() == target[0].upper() and\
+            int(origin[1]) == int(target[1]) + 2 and\
+            board[target] == '' and\
+            board['{}{}'.format(target[0], int(target[1]) + 1)] == ''
+
+    def pawn_white_forward(board, origin, target):
+        return board[origin]._colour == 'White' and\
+            origin[0].upper() == target[0].upper() and\
+            int(origin[1]) == int(target[1]) - 1 and not\
+            isinstance(board[target], Figure)
+
+    def pawn_black_forward(board, origin, target):
+        return board[origin]._colour == 'Black' and\
+            origin[0].upper() == target[0].upper() and\
+            int(origin[1]) == int(target[1]) + 1 and not\
+            isinstance(board[target], Figure)
+
+    def pawn_white_conquer(board, origin, target):
+        return board[origin]._colour == 'White' and\
+            (target[0].upper() == chr(ord(origin[0].upper()) + 1) or
+             target[0].upper() == chr(ord(origin[0].upper()) - 1)) and\
+            int(origin[1]) == int(target[1]) - 1 and\
+            isinstance(board[target], Figure) and\
+            board[target]._colour != board[origin]._colour
+
+    def pawn_black_conquer(board, origin, target):
+        return board[origin]._colour == 'Black' and\
+            (target[0].upper() == chr(ord(origin[0].upper()) + 1) or
+             target[0].upper() == chr(ord(origin[0].upper()) - 1)) and\
+            int(origin[1]) == int(target[1]) + 1 and\
+            isinstance(board[target], Figure) and\
+            board[target]._colour != board[origin]._colour
+
+    # TODO: en passant special move, castling special move
     @staticmethod
     def pawn_valid_move(board, origin, target):
-        if ValidMoves.valid_origin_and_target(origin, target):
-            if board[origin]._colour == 'Black' and\
-               board[origin]._moved is False and\
-               origin[0].upper() == target[0].upper() and\
-               int(origin[1]) == int(target[1]) + 2 and\
-               board[target] == '' and\
-               board['{}{}'.format(target[0], int(target[1]) + 1)] == '':
-                return True
-            elif board[origin]._colour == 'White' and\
-                    board[origin]._moved is False and\
-                    origin[0].upper() == target[0].upper() and\
-                    int(origin[1]) == int(target[1]) - 2 and\
-                    board[target] == '' and\
-                    board['{}{}'.format(target[0], int(target[1]) - 1)] == '':
-                        return True
-            elif board[origin]._colour == 'Black' and\
-                    origin[0].upper() == target[0].upper() and\
-                    int(origin[1]) == int(target[1]) + 1 and not\
-                    isinstance(board[target], Figure):
-                        return True
-            elif board[origin]._colour == 'White' and\
-                    origin[0].upper() == target[0].upper() and\
-                    int(origin[1]) == int(target[1]) - 1 and not\
-                    isinstance(board[target], Figure):
-                        return True
-            elif board[origin]._colour == 'Black' and\
-                    (target[0].upper() == chr(ord(origin[0].upper()) + 1) or
-                     target[0].upper() == chr(ord(origin[0].upper()) - 1)) and\
-                    int(origin[1]) == int(target[1]) + 1 and\
-                    isinstance(board[target], Figure) and\
-                    board[target]._colour != board[origin]._colour:
-                        return True
-            elif board[origin]._colour == 'White' and\
-                    (target[0].upper() == chr(ord(origin[0].upper()) + 1) or
-                     target[0].upper() == chr(ord(origin[0].upper()) - 1)) and\
-                    int(origin[1]) == int(target[1]) - 1 and\
-                    isinstance(board[target], Figure) and\
-                    board[target]._colour != board[origin]._colour:
-                        return True
-            else:
-                return False
+        return ValidMoves.valid_origin_and_target(origin, target) and\
+            (ValidMoves.pawn_white_double_forward(board, origin, target) or
+             ValidMoves.pawn_black_double_forward(board, origin, target) or
+             ValidMoves.pawn_white_forward(board, origin, target) or
+             ValidMoves.pawn_black_forward(board, origin, target) or
+             ValidMoves.pawn_white_conquer(board, origin, target) or
+             ValidMoves.pawn_black_conquer(board, origin, target))
+
+    def rook_move_up(board, origin, target):
+        figure_on_the_way = False
+        if target[0].upper() == origin[0].upper() and origin[1] < target[1]:
+            origin = '{}{}'.format(origin[0], int(origin[1]) + 1)
+            while int(origin[1]) != int(target[1]):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(origin[0], int(target[1]))
+                else:
+                    origin = '{}{}'.format(origin[0], int(origin[1]) + 1)
         else:
-            return False
+            figure_on_the_way = True
+        return not figure_on_the_way
+
+    def rook_move_down(board, origin, target):
+        figure_on_the_way = False
+        if target[0].upper() == origin[0].upper() and\
+           origin[1] > target[1]:
+            origin = '{}{}'.format(origin[0], int(origin[1]) - 1)
+            while int(origin[1]) != int(target[1]):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(origin[0], int(target[1]))
+                else:
+                    origin = '{}{}'.format(origin[0], int(origin[1]) - 1)
+        else:
+            figure_on_the_way = True
+        return not figure_on_the_way
+
+    def rook_move_right(board, origin, target):
+        figure_on_the_way = False
+        if target[1] == origin[1] and\
+           ord(origin[0].upper()) < ord(target[0].upper()):
+                origin = '{}{}'.format(chr(ord(origin[0]) + 1), origin[1])
+                while origin[0].upper() != chr(ord(target[0].upper())):
+                    if isinstance(board[origin], Figure):
+                        figure_on_the_way = True
+                        origin = '{}{}'.format(target[0], origin[1])
+                    else:
+                        origin = '{}{}'\
+                                 .format(chr(ord(origin[0]) + 1), origin[1])
+        else:
+            figure_on_the_way = True
+        return not figure_on_the_way
+
+    def rook_move_left(board, origin, target):
+        figure_on_the_way = False
+        if target[1] == origin[1] and\
+           ord(origin[0].upper()) > ord(target[0].upper()):
+                origin = '{}{}'.format(chr(ord(origin[0]) - 1), origin[1])
+                while origin[0].upper() != chr(ord(target[0].upper())):
+                    if isinstance(board[origin], Figure):
+                        figure_on_the_way = True
+                        origin = '{}{}'.format(target[0], origin[1])
+                    else:
+                        origin = '{}{}'\
+                                 .format(chr(ord(origin[0]) - 1), origin[1])
+        else:
+            figure_on_the_way = True
+        return not figure_on_the_way
 
     @staticmethod
     def rook_valid_move(board, origin, target):
-        if ValidMoves.valid_origin_and_target(origin, target):
-            if ValidMoves.can_step_on_target(board, origin, target):
-                figure_on_the_way = False
-                if target[1] == origin[1] and\
-                   ord(origin[0].upper()) < ord(target[0].upper()):
-                    origin = '{}{}'.format(chr(ord(origin[0]) + 1), origin[1])
-                    while origin[0].upper() != chr(ord(target[0].upper())):
-                        if isinstance(board[origin], Figure):
-                            figure_on_the_way = True
-                            origin = '{}{}'.format(target[0], origin[1])
-                        else:
-                            origin = '{}{}'\
-                                .format(chr(ord(origin[0]) + 1), origin[1])
-                elif target[1] == origin[1] and\
-                        ord(origin[0].upper()) > ord(target[0].upper()):
-                    origin = '{}{}'.format(chr(ord(origin[0]) - 1), origin[1])
-                    while origin[0].upper() != chr(ord(target[0].upper())):
-                        if isinstance(board[origin], Figure):
-                            figure_on_the_way = True
-                            origin = '{}{}'.format(target[0], origin[1])
-                        else:
-                            origin = '{}{}'\
-                                .format(chr(ord(origin[0]) - 1), origin[1])
-                elif target[0].upper() == origin[0].upper() and\
-                        origin[1] < target[1]:
-                    origin = '{}{}'.format(origin[0], int(origin[1]) + 1)
-                    while int(origin[1]) != int(target[1]):
-                        if isinstance(board[origin], Figure):
-                            figure_on_the_way = True
-                            origin = '{}{}'.format(origin[0], int(target[1]))
-                        else:
-                            origin = '{}{}'\
-                                .format(origin[0], int(origin[1]) + 1)
-                elif target[0].upper() == origin[0].upper() and\
-                        origin[1] > target[1]:
-                    origin = '{}{}'.format(origin[0], int(origin[1]) - 1)
-                    while int(origin[1]) != int(target[1]):
-                        if isinstance(board[origin], Figure):
-                            figure_on_the_way = True
-                            origin = '{}{}'.format(origin[0], int(target[1]))
-                        else:
-                            origin = '{}{}'\
-                                .format(origin[0], int(origin[1]) - 1)
-                else:
-                    figure_on_the_way = True
-                return not figure_on_the_way
-            else:
-                return False
-        else:
-            return False
+        return ValidMoves.valid_origin_and_target(origin, target) and\
+            ValidMoves.can_step_on_target(board, origin, target) and\
+            (ValidMoves.rook_move_up(board, origin, target) or
+             ValidMoves.rook_move_down(board, origin, target) or
+             ValidMoves.rook_move_right(board, origin, target) or
+             ValidMoves.rook_move_left(board, origin, target))
 
     @staticmethod
     def knight_valid_move(board, origin, target):
