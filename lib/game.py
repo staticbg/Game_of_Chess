@@ -54,6 +54,7 @@ class Game:
                 self.next_turn()
             else:
                 return "Not a valid move, please try again!"
+                print(str(self._board))
         else:
             return "Not a valid move, please try again!"
         print(str(self._board))

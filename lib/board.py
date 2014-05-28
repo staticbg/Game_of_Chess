@@ -3,7 +3,6 @@ import re
 from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
 
-# TODO: make validations for check and checkmate prettier
 class ValidMoves:
 
     def valid_position(position):
@@ -62,7 +61,7 @@ class ValidMoves:
             isinstance(board[target], Figure) and\
             board[target]._colour != board[origin]._colour
 
-    # TODO: en passant special move, castling special move
+    # TODO: en passant special move, promotion special move
     @staticmethod
     def pawn_valid_move(board, origin, target):
         return ValidMoves.valid_origin_and_target(origin, target) and\
@@ -75,6 +74,7 @@ class ValidMoves:
 
     def rook_move_up(board, origin, target):
         figure_on_the_way = True
+
         if target[0].upper() == origin[0].upper() and origin[1] < target[1]:
 
             figure_on_the_way = False
@@ -90,6 +90,7 @@ class ValidMoves:
 
     def rook_move_down(board, origin, target):
         figure_on_the_way = True
+
         if target[0].upper() == origin[0].upper() and\
            origin[1] > target[1]:
 
@@ -106,6 +107,7 @@ class ValidMoves:
 
     def rook_move_right(board, origin, target):
         figure_on_the_way = True
+
         if target[1] == origin[1] and\
            ord(origin[0].upper()) < ord(target[0].upper()):
 
@@ -123,6 +125,7 @@ class ValidMoves:
 
     def rook_move_left(board, origin, target):
         figure_on_the_way = True
+
         if target[1] == origin[1] and\
            ord(origin[0].upper()) > ord(target[0].upper()):
 
@@ -176,6 +179,7 @@ class ValidMoves:
 
     def bishop_move_up_right(board, origin, target):
         figure_on_the_way = True
+
         if ord(origin[0].upper()) < ord(target[0].upper())\
                 and int(origin[1]) < int(target[1]):
 
@@ -193,6 +197,7 @@ class ValidMoves:
 
     def bishop_move_up_left(board, origin, target):
         figure_on_the_way = True
+
         if ord(origin[0].upper()) < ord(target[0].upper())\
                 and int(origin[1]) > int(target[1]):
 
@@ -210,6 +215,7 @@ class ValidMoves:
 
     def bishop_move_down_right(board, origin, target):
         figure_on_the_way = True
+
         if ord(origin[0].upper()) > ord(target[0].upper())\
                 and int(origin[1]) < int(target[1]):
 
@@ -227,6 +233,7 @@ class ValidMoves:
 
     def bishop_move_down_left(board, origin, target):
         figure_on_the_way = True
+
         if ord(origin[0].upper()) > ord(target[0].upper())\
                 and int(origin[1]) > int(target[1]):
 
@@ -321,46 +328,48 @@ class ValidMoves:
                              .format(chr(letter), index)]._colour == colour:
                     return '{}{}'.format(chr(letter), index)
 
-    @staticmethod
-    def is_in_check(board, colour, king_position):
-
-        king_in_check = False
-
-        for letter in range(ord('A'), ord('H') + 1):
-            for index in range(1, 9):
-                if isinstance(board['{}{}'.format(chr(letter), index)],
-                              Figure) and\
-                   board['{}{}'.format(chr(letter), index)]._colour != colour:
-
-                    if ValidMoves.valid_move(board, '{}{}'
-                                             .format(chr(letter), index),
-                                             king_position):
-                        king_in_check = True
-
-        return king_in_check
-
-    @staticmethod
-    def is_in_checkmate(board, colour):
-        king_position = ValidMoves.get_king_position(board, colour)
-
+    def get_valid_king_moves(board, colour, king_position):
         valid_king_moves = []
 
         for letter in range(ord(king_position[0]) - 1,
                             ord(king_position[0]) + 2):
             for index in range(int(king_position[1]) - 1,
                                int(king_position[1]) + 2):
-                if ValidMoves.valid_position('{}{}'.format(chr(letter),
-                                                           index)) and\
-                        ValidMoves.king_valid_move(board, king_position,
-                                                   '{}{}'.format(chr(letter),
-                                                                 index)):
-                            valid_king_moves.append('{}{}'.format(chr(letter),
-                                                                  index))
-        if valid_king_moves == []:
-            return False
-        else:
-            return all(ValidMoves.is_in_check(board, colour, king_move)
-                       for king_move in valid_king_moves)
+                if ValidMoves.valid_position(
+                    '{}{}'.format(chr(letter), index)) and\
+                    ValidMoves.king_valid_move(
+                        board, king_position, '{}{}'.format(chr(letter),
+                                                            index)):
+                            valid_king_moves.append(
+                                '{}{}'.format(chr(letter), index))
+        return valid_king_moves
+
+    @staticmethod
+    def is_in_check(board, colour, king_position):
+        king_in_check = False
+
+        for letter in range(ord('A'), ord('H') + 1):
+            for index in range(1, 9):
+
+                if isinstance(
+                    board['{}{}'.format(chr(letter), index)], Figure) and\
+                   board['{}{}'.format(chr(letter), index)]._colour != colour:
+
+                    if ValidMoves.valid_move(
+                        board, '{}{}'.format(chr(letter), index),
+                       king_position):
+                            king_in_check = True
+
+        return king_in_check
+
+    @staticmethod
+    def is_in_checkmate(board, colour):
+        valid_king_moves = ValidMoves.get_valid_king_moves(
+            board, colour, ValidMoves.get_king_position(board, colour))
+
+        return valid_king_moves != [] and\
+            all(ValidMoves.is_in_check(board, colour, king_move)
+                for king_move in valid_king_moves)
 
 
 class Board:
