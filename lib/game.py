@@ -33,10 +33,27 @@ class Game:
             print("Please choose between queen, bishop, rook and knight")
             return self.promote_pawn()
 
+    def make_castling(self, origin, target):
+        if origin[0].upper() == 'A' or target[0].upper() == 'A':
+            self._board['d{}'.format(origin[1])] =\
+                Rook(self._board[origin]._colour)
+            self._board['c{}'.format(origin[1])] =\
+                King(self._board[origin]._colour)
+
+        else:
+            self._board['f{}'.format(origin[1])] =\
+                Rook(self._board[origin]._colour)
+            self._board['g{}'.format(origin[1])] =\
+                King(self._board[origin]._colour)
+
+        self._board[origin], self._board[target] = '', ''
+        self.next_turn()
+
     def move(self, origin, target):
         if ValidMoves.is_in_checkmate(self._board, self._turn):
-            self.next_turn()
-            return 'Player {} wins'.format(self._turn)
+            winner = str(self._player_white) * (self._turn == 'Black') +\
+                str(self._player_black) * (self._turn == 'White')
+            return '{} wins'.format(winner)
 
         elif isinstance(self._board[origin], Figure) and\
                 self._board[origin]._colour == self._turn:
@@ -61,21 +78,7 @@ class Game:
                 self.next_turn()
 
             elif ValidMoves.valid_castling(self._board, origin, target):
-
-                if origin[0].upper() == 'A' or target[0].upper() == 'A':
-                    self._board['d{}'.format(origin[1])]\
-                        = Rook(self._board[origin]._colour)
-                    self._board['c{}'.format(origin[1])]\
-                        = King(self._board[origin]._colour)
-
-                else:
-                    self._board['f{}'.format(origin[1])]\
-                        = Rook(self._board[origin]._colour)
-                    self._board['g{}'.format(origin[1])]\
-                        = King(self._board[origin]._colour)
-
-                self._board[origin], self._board[target] = '', ''
-                self.next_turn()
+                self.make_castling(origin, target)
 
             else:
                 return "Not a valid move, please try again!"
@@ -83,4 +86,6 @@ class Game:
 
         else:
             return "Not a valid move, please try again!"
+            print(str(self._board))
+
         print(str(self._board))
