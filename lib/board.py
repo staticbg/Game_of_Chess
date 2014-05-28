@@ -103,8 +103,9 @@ class ValidMoves:
              ValidMoves.pawn_black_conquer(board, origin, target))
 
     def rook_move_up(board, origin, target):
-        figure_on_the_way = False
+        figure_on_the_way = True
         if target[0].upper() == origin[0].upper() and origin[1] < target[1]:
+            figure_on_the_way = False
             origin = '{}{}'.format(origin[0], int(origin[1]) + 1)
             while int(origin[1]) != int(target[1]):
                 if isinstance(board[origin], Figure):
@@ -112,14 +113,13 @@ class ValidMoves:
                     origin = '{}{}'.format(origin[0], int(target[1]))
                 else:
                     origin = '{}{}'.format(origin[0], int(origin[1]) + 1)
-        else:
-            figure_on_the_way = True
         return not figure_on_the_way
 
     def rook_move_down(board, origin, target):
-        figure_on_the_way = False
+        figure_on_the_way = True
         if target[0].upper() == origin[0].upper() and\
            origin[1] > target[1]:
+            figure_on_the_way = False
             origin = '{}{}'.format(origin[0], int(origin[1]) - 1)
             while int(origin[1]) != int(target[1]):
                 if isinstance(board[origin], Figure):
@@ -127,14 +127,14 @@ class ValidMoves:
                     origin = '{}{}'.format(origin[0], int(target[1]))
                 else:
                     origin = '{}{}'.format(origin[0], int(origin[1]) - 1)
-        else:
-            figure_on_the_way = True
+
         return not figure_on_the_way
 
     def rook_move_right(board, origin, target):
-        figure_on_the_way = False
+        figure_on_the_way = True
         if target[1] == origin[1] and\
            ord(origin[0].upper()) < ord(target[0].upper()):
+                figure_on_the_way = False
                 origin = '{}{}'.format(chr(ord(origin[0]) + 1), origin[1])
                 while origin[0].upper() != chr(ord(target[0].upper())):
                     if isinstance(board[origin], Figure):
@@ -143,14 +143,14 @@ class ValidMoves:
                     else:
                         origin = '{}{}'\
                                  .format(chr(ord(origin[0]) + 1), origin[1])
-        else:
-            figure_on_the_way = True
+
         return not figure_on_the_way
 
     def rook_move_left(board, origin, target):
-        figure_on_the_way = False
+        figure_on_the_way = True
         if target[1] == origin[1] and\
            ord(origin[0].upper()) > ord(target[0].upper()):
+                figure_on_the_way = False
                 origin = '{}{}'.format(chr(ord(origin[0]) - 1), origin[1])
                 while origin[0].upper() != chr(ord(target[0].upper())):
                     if isinstance(board[origin], Figure):
@@ -159,8 +159,7 @@ class ValidMoves:
                     else:
                         origin = '{}{}'\
                                  .format(chr(ord(origin[0]) - 1), origin[1])
-        else:
-            figure_on_the_way = True
+
         return not figure_on_the_way
 
     @staticmethod
@@ -193,68 +192,81 @@ class ValidMoves:
              target == '{}{}'
              .format(chr(ord(origin[0]) - 1), int(origin[1]) - 2))
 
+    def bishop_move_diagonal(board, origin, target):
+        return (ord(origin[0].upper()) - ord(target[0].upper())) ==\
+            (int(origin[1]) - int(target[1])) or\
+            (ord(origin[0].upper()) - ord(target[0].upper())) ==\
+            (int(target[1]) - int(origin[1]))
+
+    def bishop_move_up_right(board, origin, target):
+        figure_on_the_way = True
+        if ord(origin[0].upper()) < ord(target[0].upper())\
+                and int(origin[1]) < int(target[1]):
+            figure_on_the_way = False
+            origin = '{}{}'.format(chr(ord(origin[0]) + 1), int(origin[1]) + 1)
+            while origin[0].upper() != chr(ord(target[0].upper())):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(target[0], target[1])
+                else:
+                    origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                           int(origin[1]) + 1)
+        return not figure_on_the_way
+
+    def bishop_move_up_left(board, origin, target):
+        figure_on_the_way = True
+        if ord(origin[0].upper()) < ord(target[0].upper())\
+                and int(origin[1]) > int(target[1]):
+            figure_on_the_way = False
+            origin = '{}{}'.format(chr(ord(origin[0]) + 1), int(origin[1]) - 1)
+            while origin[0].upper() != chr(ord(target[0].upper())):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(target[0], target[1])
+                else:
+                    origin = '{}{}'.format(chr(ord(origin[0]) + 1),
+                                           int(origin[1]) - 1)
+        return not figure_on_the_way
+
+    def bishop_move_down_right(board, origin, target):
+        figure_on_the_way = True
+        if ord(origin[0].upper()) > ord(target[0].upper())\
+                and int(origin[1]) < int(target[1]):
+            figure_on_the_way = False
+            origin = '{}{}'.format(chr(ord(origin[0]) - 1), int(origin[1]) + 1)
+            while origin[0].upper() != chr(ord(target[0].upper())):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(target[0], target[1])
+                else:
+                    origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                           int(origin[1]) + 1)
+        return not figure_on_the_way
+
+    def bishop_move_down_left(board, origin, target):
+        figure_on_the_way = True
+        if ord(origin[0].upper()) > ord(target[0].upper())\
+                and int(origin[1]) > int(target[1]):
+            figure_on_the_way = False
+            origin = '{}{}'.format(chr(ord(origin[0]) - 1), int(origin[1]) - 1)
+            while origin[0].upper() != chr(ord(target[0].upper())):
+                if isinstance(board[origin], Figure):
+                    figure_on_the_way = True
+                    origin = '{}{}'.format(target[0], target[1])
+                else:
+                    origin = '{}{}'.format(chr(ord(origin[0]) - 1),
+                                           int(origin[1]) - 1)
+        return not figure_on_the_way
+
     @staticmethod
     def bishop_valid_move(board, origin, target):
-        if ValidMoves.valid_origin_and_target(origin, target):
-            if ValidMoves.can_step_on_target(board, origin, target):
-                figure_on_the_way = False
-                if (ord(origin[0].upper()) - ord(target[0].upper())) ==\
-                   (int(origin[1]) - int(target[1])) or\
-                   (ord(origin[0].upper()) - ord(target[0].upper())) ==\
-                   (int(target[1]) - int(origin[1])):
-                    if ord(origin[0].upper()) > ord(target[0].upper())\
-                       and int(origin[1]) > int(target[1]):
-                        origin = '{}{}'.format(chr(ord(origin[0]) - 1),
-                                               int(origin[1]) - 1)
-                        while origin[0].upper() != chr(ord(target[0].upper())):
-                            if isinstance(board[origin], Figure):
-                                figure_on_the_way = True
-                                origin = '{}{}'.format(target[0], target[1])
-                            else:
-                                origin = '{}{}'.format(chr(ord(origin[0]) - 1),
-                                                       int(origin[1]) - 1)
-                    elif ord(origin[0].upper()) < ord(target[0].upper())\
-                            and int(origin[1]) > int(target[1]):
-                        origin = '{}{}'.format(chr(ord(origin[0]) + 1),
-                                               int(origin[1]) - 1)
-                        while origin[0].upper() != chr(ord(target[0].upper())):
-                            if isinstance(board[origin], Figure):
-                                figure_on_the_way = True
-                                origin = '{}{}'.format(target[0], target[1])
-                            else:
-                                origin = '{}{}'.format(chr(ord(origin[0]) + 1),
-                                                       int(origin[1]) - 1)
-                    elif ord(origin[0].upper()) > ord(target[0].upper())\
-                            and int(origin[1]) < int(target[1]):
-                        origin = '{}{}'.format(chr(ord(origin[0]) - 1),
-                                               int(origin[1]) + 1)
-                        while origin[0].upper() != chr(ord(target[0].upper())):
-                            if isinstance(board[origin], Figure):
-                                figure_on_the_way = True
-                                origin = '{}{}'.format(target[0], target[1])
-                            else:
-                                origin = '{}{}'.format(chr(ord(origin[0]) - 1),
-                                                       int(origin[1]) + 1)
-                    elif ord(origin[0].upper()) < ord(target[0].upper())\
-                            and int(origin[1]) < int(target[1]):
-                        origin = '{}{}'.format(chr(ord(origin[0]) + 1),
-                                               int(origin[1]) + 1)
-                        while origin[0].upper() != chr(ord(target[0].upper())):
-                            if isinstance(board[origin], Figure):
-                                figure_on_the_way = True
-                                origin = '{}{}'.format(target[0], target[1])
-                            else:
-                                origin = '{}{}'.format(chr(ord(origin[0]) + 1),
-                                                       int(origin[1]) + 1)
-                    else:
-                        figure_on_the_way = True
-                    return not figure_on_the_way
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
+        return ValidMoves.valid_origin_and_target(origin, target) and\
+            ValidMoves.can_step_on_target(board, origin, target) and\
+            ValidMoves.bishop_move_diagonal(board, origin, target) and\
+            (ValidMoves.bishop_move_up_right(board, origin, target) or
+             ValidMoves.bishop_move_up_left(board, origin, target) or
+             ValidMoves.bishop_move_down_right(board, origin, target) or
+             ValidMoves.bishop_move_down_left(board, origin, target))
 
     @staticmethod
     def queen_valid_move(board, origin, target):
