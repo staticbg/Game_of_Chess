@@ -13,7 +13,7 @@ class TestValidMoves(unittest.TestCase):
         game.move('c7', 'c6')
         game.move('a2', 'a4')
         game.move('d8', 'a5')
-        self.assertEqual(game.move('a3', 'a5'), 'George wins')
+        self.assertEqual(game.move('a3', 'a5'), 'Player George wins')
 
     def test_castling(self):
         game = Game('Gosho', 'Pesho')

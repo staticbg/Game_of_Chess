@@ -9,8 +9,8 @@ class Game:
 
     def __init__(self, player_1='Player 1', player_2='Player 2'):
         self._board = Board()
-        self._player_white = player_1
-        self._player_black = player_2
+        self._player_white = Player(player_1)
+        self._player_black = Player(player_2)
         self._turn = 'White'
         print(str(self._board))
 
