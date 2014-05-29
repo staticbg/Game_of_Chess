@@ -36,9 +36,6 @@ class MultiPlayer:
         self._turn = 'Black' * (self._turn == 'White') +\
                      'White' * (self._turn == 'Black')
 
-    def capture(self):
-        pass
-
     def is_pawn_on_end(self, board, target):
         return isinstance(self._board[target], Pawn) and\
             int(target[1]) == 1 + 7 * (self._turn == board[target]._colour)
