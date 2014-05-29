@@ -44,5 +44,5 @@ class TestLostFigures(unittest.TestCase):
     def test_len(self):
         self.assertEqual(len(self.lost_figures), 2)
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#    unittest.main()

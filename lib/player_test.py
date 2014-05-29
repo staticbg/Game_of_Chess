@@ -20,5 +20,5 @@ class TestPlayer(unittest.TestCase):
 
         self.assertEqual(player.show_lost_figures(), ' White Pawn White Rook')
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#    unittest.main()

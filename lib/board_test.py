@@ -443,5 +443,5 @@ class TestBoard(unittest.TestCase):
                                      '\033[37mH\033[0m|\033[37mR\033[0m|\n'
                                      '   A B C D E F G H')
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#    unittest.main()

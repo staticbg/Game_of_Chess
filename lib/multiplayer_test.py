@@ -36,5 +36,5 @@ class TestValidMoves(unittest.TestCase):
         new_game.move('a2', 'a4')
         self.assertEqual(new_game.resign(), 'Player George wins')
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#    unittest.main()
