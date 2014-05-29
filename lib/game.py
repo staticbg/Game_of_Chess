@@ -14,11 +14,23 @@ class Game:
         self._turn = 'White'
         print(str(self._board))
 
+    def get_other_player(self):
+        return str(self._player_white) * (self._turn == 'Black') +\
+            str(self._player_black) * (self._turn == 'White')
+
+    def offer_draw(self):
+        answer = input()
+        if answer.upper() == 'Y':
+            return '{} and {} ended the game with a draw'\
+                   .format(str(self._player_white), str(self._player_black))
+        elif answer.upper() == 'N':
+            return '{} declined'.format(self.get_other_player())
+        else:
+            print("Please give your answer: y/n")
+            return self.offer_draw()
+
     def resign(self):
-        return '{} wins'.format(str(self._player_white) *
-                                (self._turn == 'Black') +
-                                str(self._player_black) *
-                                (self._turn == 'White'))
+        return '{} wins'.format(self.get_other_player())
 
     def next_turn(self):
         self._turn = 'Black' * (self._turn == 'White') +\
