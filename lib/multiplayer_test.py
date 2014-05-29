@@ -36,5 +36,21 @@ class TestValidMoves(unittest.TestCase):
         new_game.move('a2', 'a4')
         self.assertEqual(new_game.resign(), 'Player George wins')
 
+    def test_capture(self):
+        game = MultiPlayer()
+        game.move('b2', 'b4')
+        game.move('a7', 'a5')
+        game.move('b4', 'a5')
+
+        self.assertEqual(game._player_black.show_lost_figures(), ' Black Pawn')
+
+        game.move('a8', 'a5')
+        game.move('b1', 'a3')
+        game.move('a5', 'a3')
+
+        self.assertEqual(game._player_white.show_lost_figures(),
+                         ' White Pawn White Knight')
+
+
 # if __name__ == '__main__':
 #    unittest.main()

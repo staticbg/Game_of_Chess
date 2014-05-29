@@ -36,6 +36,12 @@ class MultiPlayer:
         self._turn = 'Black' * (self._turn == 'White') +\
                      'White' * (self._turn == 'Black')
 
+    def capture(self, position):
+        if self._turn == 'White':
+            self._player_black.add_figure(self._board[position])
+        else:
+            self._player_white.add_figure(self._board[position])
+
     def is_pawn_on_end(self, board, target):
         return isinstance(self._board[target], Pawn) and\
             int(target[1]) == 1 + 7 * (self._turn == board[target]._colour)
@@ -82,6 +88,9 @@ class MultiPlayer:
                 self._board[origin]._colour == self._turn:
 
             if ValidMoves.valid_move(self._board, origin, target):
+
+                if isinstance(self._board[target], Figure):
+                    self.capture(target)
 
                 self._board[target] = self._board[origin]
                 temp_origin = self._board[origin]
