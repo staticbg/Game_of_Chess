@@ -18,7 +18,8 @@ class ValidMoves:
             board[target] == ''
 
     def pawn_white_double_forward(board, origin, target):
-        return board[origin]._colour == 'White' and\
+        return int(origin[1]) == 2 and\
+            board[origin]._colour == 'White' and\
             board[origin]._moved is False and\
             origin[0].upper() == target[0].upper() and\
             int(origin[1]) == int(target[1]) - 2 and\
@@ -26,7 +27,8 @@ class ValidMoves:
             board['{}{}'.format(target[0], int(target[1]) - 1)] == ''
 
     def pawn_black_double_forward(board, origin, target):
-        return board[origin]._colour == 'Black' and\
+        return int(origin[1]) == 7 and\
+            board[origin]._colour == 'Black' and\
             board[origin]._moved is False and\
             origin[0].upper() == target[0].upper() and\
             int(origin[1]) == int(target[1]) + 2 and\
@@ -318,7 +320,6 @@ class ValidMoves:
         else:
             return False
 
-    # TODO: make it a Board method
     @staticmethod
     def get_king_position(board, colour):
         for letter in range(ord('A'), ord('H') + 1):
@@ -353,11 +354,10 @@ class ValidMoves:
 
                 if isinstance(
                     board['{}{}'.format(chr(letter), index)], Figure) and\
-                   board['{}{}'.format(chr(letter), index)]._colour != colour:
-
-                    if ValidMoves.valid_move(
-                        board, '{}{}'.format(chr(letter), index),
-                       king_position):
+                   board['{}{}'.format(chr(letter), index)]._colour != colour\
+                   and ValidMoves.valid_move(board, '{}{}'.format(chr(letter),
+                                                                  index),
+                                             king_position):
                             king_in_check = True
 
         return king_in_check
@@ -369,10 +369,7 @@ class ValidMoves:
 
         return valid_king_moves != [] and\
             all(ValidMoves.is_in_check(board, colour, king_move)
-                for king_move in valid_king_moves) or\
-            valid_king_moves == [] and\
-            ValidMoves.is_in_check(
-                board, colour, ValidMoves.get_king_position(board, colour))
+                for king_move in valid_king_moves)
 
 
 class Board:

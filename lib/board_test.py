@@ -87,6 +87,11 @@ class TestValidMoves(unittest.TestCase):
                          .pawn_valid_move(self.board, 'a2', 'a4'))
         self.board['a2'] = ''
 
+        self.board['a4'] = Pawn('White')
+        self.assertFalse(ValidMoves
+                         .pawn_valid_move(self.board, 'a4', 'a6'))
+        self.board['a4'] = ''
+
     def test_rook_move(self):
         self.assertTrue(ValidMoves
                         .rook_valid_move(self.board, 'A1', 'a5'))
