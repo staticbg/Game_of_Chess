@@ -370,8 +370,9 @@ class ValidMoves:
         return valid_king_moves != [] and\
             all(ValidMoves.is_in_check(board, colour, king_move)
                 for king_move in valid_king_moves) or\
-                valid_king_moves == [] and\
-                ValidMoves.is_in_check(board, colour, ValidMoves.get_king_position(board, colour))
+            valid_king_moves == [] and\
+            ValidMoves.is_in_check(
+                board, colour, ValidMoves.get_king_position(board, colour))
 
 
 class Board:
