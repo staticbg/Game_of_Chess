@@ -36,9 +36,12 @@ class MultiPlayer:
         self._turn = 'Black' * (self._turn == 'White') +\
                      'White' * (self._turn == 'Black')
 
-    def is_pawn_on_end(self, board, target, colour):
+    def capture(self):
+        pass
+
+    def is_pawn_on_end(self, board, target):
         return isinstance(self._board[target], Pawn) and\
-            int(target[1]) == 1 + 7 * (colour == board[target]._colour)
+            int(target[1]) == 1 + 7 * (self._turn == board[target]._colour)
 
     def promote_pawn(self):
         promotion = {'QUEEN': Queen, 'BISHOP': Bishop,
@@ -93,7 +96,7 @@ class MultiPlayer:
                     self._board[origin] = temp_origin
                     self.next_turn()
 
-                if self.is_pawn_on_end(self._board, target, self._turn):
+                if self.is_pawn_on_end(self._board, target):
                     self._board[target] = self.promote_pawn()(self._turn)
                 self.next_turn()
 

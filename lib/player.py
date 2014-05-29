@@ -11,3 +11,9 @@ class Player:
 
     def __repr__(self):
         return self._name
+
+    def add_figure(self, figure):
+        self._lost_figures.add_figure(figure)
+
+    def show_lost_figures(self):
+        return str(self._lost_figures)

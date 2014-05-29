@@ -76,7 +76,3 @@ class LostFigures():
 
     def add_figure(self, figure):
         self._lost_figures.append(figure)
-
-    def swap_pawn_for_figure(self, figure):
-        self._lost_figures.remove(figure)
-        self.add_figure(Pawn(figure._colour))
