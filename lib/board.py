@@ -5,6 +5,7 @@ from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 from constants import ALL_BOARD_POSITIONS
 
 
+# TODO: make king capture not a valid move
 class Validations:
 
     def valid_position(position):
@@ -345,11 +346,26 @@ class Validations:
         return valid_king_moves
 
     @staticmethod
-    def get_all_valid_moves(board, turn):
+    def get_all_valid_moves(board, colour):
         return ['{}{}'.format(origin, target) for origin in ALL_BOARD_POSITIONS
                 for target in ALL_BOARD_POSITIONS
                 if Validations.valid_move(board, origin, target) and
-                board[origin]._colour == turn]
+                board[origin]._colour == colour]
+
+    @staticmethod
+    def get_all_valid_moves_check(board, colour):
+        all_valid_moves = []
+        for move in Validations.get_all_valid_moves(board, colour):
+            new_board = Board()
+            for position in ALL_BOARD_POSITIONS:
+                new_board[position] = board[position]
+            new_board[move[2:4]], new_board[move[:2]] = new_board[move[:2]], ''
+            if not Validations.is_in_check(new_board, colour,
+                                           Validations
+                                           .get_king_position(new_board,
+                                                              colour)):
+                all_valid_moves.append(move)
+        return all_valid_moves
 
     @staticmethod
     def is_in_check(board, colour, king_position):
@@ -365,12 +381,7 @@ class Validations:
 
     @staticmethod
     def is_in_checkmate(board, colour):
-        valid_king_moves = Validations.get_valid_king_moves(
-            board, colour, Validations.get_king_position(board, colour))
-
-        return valid_king_moves != [] and\
-            all(Validations.is_in_check(board, colour, king_move)
-                for king_move in valid_king_moves)
+        return Validations.get_all_valid_moves_check(board, colour) == []
 
 
 class Board:

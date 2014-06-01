@@ -8,11 +8,14 @@ from figures import King, Rook
 class TestValidations(unittest.TestCase):
     def test_black_wins(self):
         game = MultiPlayer('Ivan', 'George')
-        game.move('d2', 'd4')
-        game.move('c7', 'c6')
-        game.move('a2', 'a4')
-        game.move('d8', 'a5')
-        self.assertEqual(game.move('a3', 'a5'), 'Player George wins')
+        game.move('e2', 'e4')
+        game.move('e7', 'e5')
+        game.move('d1', 'h5')
+        game.move('b8', 'c6')
+        game.move('f1', 'c4')
+        game.move('d7', 'd6')
+        game.move('h5', 'f7')
+        self.assertEqual(game.move('a3', 'a5'), 'Player Ivan wins')
 
     def test_castling(self):
         game = MultiPlayer('Gosho', 'Pesho')
