@@ -345,17 +345,16 @@ class Validations:
                                 '{}{}'.format(chr(letter), index))
         return valid_king_moves
 
-    @staticmethod
-    def get_all_valid_moves(board, colour):
+    def get_valid_moves(board, colour):
         return ['{}{}'.format(origin, target) for origin in ALL_BOARD_POSITIONS
                 for target in ALL_BOARD_POSITIONS
                 if Validations.valid_move(board, origin, target) and
                 board[origin]._colour == colour]
 
     @staticmethod
-    def get_all_valid_moves_check(board, colour):
+    def get_all_valid_moves(board, colour):
         all_valid_moves = []
-        for move in Validations.get_all_valid_moves(board, colour):
+        for move in Validations.get_valid_moves(board, colour):
             new_board = Board()
             for position in ALL_BOARD_POSITIONS:
                 new_board[position] = board[position]
@@ -381,11 +380,11 @@ class Validations:
 
     @staticmethod
     def is_in_stalemate(board, colour):
-        return Validations.get_all_valid_moves_check(board, colour) == []
+        return Validations.get_all_valid_moves(board, colour) == []
 
     @staticmethod
     def is_in_checkmate(board, colour):
-        return Validations.get_all_valid_moves_check(board, colour) == [] and\
+        return Validations.get_all_valid_moves(board, colour) == [] and\
             Validations.is_in_check(board, colour,
                                     Validations
                                     .get_king_position(board, colour))
