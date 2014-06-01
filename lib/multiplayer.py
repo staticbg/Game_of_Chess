@@ -14,6 +14,10 @@ class MultiPlayer:
         self._turn = 'White'
         print(str(self._board))
 
+    def get_player_name(self):
+        return str(self._player_white) * (self._turn == 'White') +\
+            str(self._player_black) * (self._turn == 'Black')
+
     def get_other_player(self):
         return str(self._player_white) * (self._turn == 'Black') +\
             str(self._player_black) * (self._turn == 'White')
