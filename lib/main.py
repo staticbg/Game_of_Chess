@@ -19,6 +19,9 @@ def start_game():
         print('{} {}'.format(game.get_player_name(), 'make your move.'))
         print("Select the position of the figure you want to move.")
         origin = input()
+
+        # TODO: add draw offer and resignation
+
         print("Select the position to which you want to move the {} on {}"
               .format(str(game._board[origin]), origin))
         target = input()

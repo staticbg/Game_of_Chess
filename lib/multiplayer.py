@@ -23,6 +23,7 @@ class MultiPlayer:
             str(self._player_black) * (self._turn == 'White')
 
     def offer_draw(self):
+        print("{} offers a draw. y/n".format(self.get_player_name()))
         answer = input()
         if answer.upper() == 'Y':
             return '{} and {} ended the game with a draw'\
