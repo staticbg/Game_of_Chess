@@ -1,4 +1,4 @@
-from board import Board, ValidMoves
+from board import Board, Validations
 
 from figures import Figure, Pawn, Rook, Bishop, Knight, Queen, King
 
@@ -79,12 +79,13 @@ class MultiPlayer:
         self.next_turn()
 
     def king_is_in_check(self):
-        return ValidMoves.is_in_check(self._board, self._turn,
-                                      ValidMoves.get_king_position(self._board,
-                                                                   self._turn))
+        return Validations.is_in_check(self._board, self._turn,
+                                       Validations
+                                       .get_king_position(self._board,
+                                                          self._turn))
 
     def move(self, origin, target):
-        if ValidMoves.is_in_checkmate(self._board, self._turn):
+        if Validations.is_in_checkmate(self._board, self._turn):
             winner = str(self._player_white) * (self._turn == 'Black') +\
                 str(self._player_black) * (self._turn == 'White')
             return '{} wins'.format(winner)
@@ -92,7 +93,7 @@ class MultiPlayer:
         elif isinstance(self._board[origin], Figure) and\
                 self._board[origin]._colour == self._turn:
 
-            if ValidMoves.valid_move(self._board, origin, target):
+            if Validations.valid_move(self._board, origin, target):
 
                 if isinstance(self._board[target], Figure):
                     self.capture(target)
@@ -111,7 +112,7 @@ class MultiPlayer:
                     self._board[target] = self.promote_pawn()(self._turn)
                 self.next_turn()
 
-            elif ValidMoves.valid_castling(self._board, origin, target):
+            elif Validations.valid_castling(self._board, origin, target):
                 self.make_castling(origin, target)
 
             else:

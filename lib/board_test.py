@@ -2,10 +2,10 @@ import unittest
 
 from figures import Pawn, Knight, Bishop, Rook, Queen, King
 
-from board import Board, ValidMoves
+from board import Board, Validations
 
 
-class TestValidMoves(unittest.TestCase):
+class TestValidations(unittest.TestCase):
     def setUp(self):
         self.board = Board()
         for index in range(ord('A'), ord('H') + 1):
@@ -13,14 +13,14 @@ class TestValidMoves(unittest.TestCase):
             self.board[position] = ''
 
     def test_pawn_move(self):
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'A7', 'A6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'c7', 'd5'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'cd7', 'csd5'))
         self.board['d6'] = Queen('White')
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'e7', 'd6'))
         self.board['d6'] = ''
 
@@ -33,25 +33,25 @@ class TestValidMoves(unittest.TestCase):
         self.board['d4'] = Queen('Black')
         self.board['e4'] = Bishop('Black')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'd3', 'c4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'd3', 'e4'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'd3', 'd4'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'c5', 'b6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'c5', 'c6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'c5', 'd6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'h5', 'h6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'h5', 'h4'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'h5', 'g4'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'h5', 'a5'))
 
         self.board['c6'] = ''
@@ -63,51 +63,51 @@ class TestValidMoves(unittest.TestCase):
         self.board['e4'] = ''
         self.board['c5'] = ''
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'c7', 'c5'))
         self.board['c7'] = ''
 
         self.board['a2'] = Pawn('White')
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .pawn_valid_move(self.board, 'a2', 'a4'))
         self.board['a3'] = Rook('White')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'a2', 'a4'))
         self.board['a3'] = ''
         self.board['a4'] = Pawn('Black')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'a2', 'a4'))
         self.board['a4'] = Pawn('White')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'a2', 'a4'))
 
         self.board['a4'] = ''
         self.board['a2']._moved = True
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'a2', 'a4'))
         self.board['a2'] = ''
 
         self.board['a4'] = Pawn('White')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .pawn_valid_move(self.board, 'a4', 'a6'))
         self.board['a4'] = ''
 
     def test_rook_move(self):
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'A1', 'a5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'A1', 'a6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'A1', 'a7'))
         self.board['a3'] = King('White')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'A1', 'a3'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'A1', 'a5'))
         self.board['a2'] = Rook('White')
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'A2', 'e2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'A2', 'c4'))
         self.board['a3'] = ''
         self.board['a2'] = ''
@@ -117,29 +117,29 @@ class TestValidMoves(unittest.TestCase):
         self.board['d4'] = Bishop('White')
         self.board['e3'] = Pawn('White')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'b3'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'c4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'c2'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'c6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'c7'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'c8'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'a3'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .rook_valid_move(self.board, 'c3', 'e3'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'f3'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'e5'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'b2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'c3', 'e9'))
 
         self.board['c3'] = ''
@@ -155,31 +155,31 @@ class TestValidMoves(unittest.TestCase):
         self.board['b6'] = Pawn('Black')
         self.board['e3'] = Pawn('Black')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'd2'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'd6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'a3'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'a5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'b6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'b2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'e5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .knight_valid_move(self.board, 'c4', 'e3'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'c5'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'c3'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'b5'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'h1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .knight_valid_move(self.board, 'c4', 'c9'))
 
         self.board['c4'] = ''
@@ -195,32 +195,32 @@ class TestValidMoves(unittest.TestCase):
         self.board['b6'] = Pawn('White')
         self.board['b2'] = Pawn('Black')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'e5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'e3'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'b2'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'c5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'f6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .bishop_valid_move(self.board, 'd4', 'f2'))
 
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'g7'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'h8'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'bs2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'b6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'a7'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'a1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .bishop_valid_move(self.board, 'd4', 'f7'))
 
         self.board['d4'] = ''
@@ -237,40 +237,40 @@ class TestValidMoves(unittest.TestCase):
         self.board['b6'] = Pawn('Black')
         self.board['b2'] = Pawn('White')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'd5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'd3'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'c4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'a4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'f4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'e5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'd6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .queen_valid_move(self.board, 'd4', 'b6'))
 
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'd2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'b2'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'f6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'f7'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'd8'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'd1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'a1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'g1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .queen_valid_move(self.board, 'd4', 'h5'))
 
         self.board['d4'] = ''
@@ -288,31 +288,31 @@ class TestValidMoves(unittest.TestCase):
 
         self.board['d5'] = King('Black')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'd6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'e6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'e5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'e4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'd4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'c4'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'c5'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'c6'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .king_valid_move(self.board, 'd5', 'h6'))
 
         self.board['e4'] = Pawn('Black')
         self.board['c5'] = Pawn('White')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .king_valid_move(self.board, 'd5', 'c5'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .king_valid_move(self.board, 'd5', 'e4'))
 
         self.board['d5'] = ''
@@ -332,32 +332,32 @@ class TestSpecialMoves(unittest.TestCase):
         self.board['a1'] = Rook('White')
         self.board['h1'] = Rook('White')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .valid_castling(self.board, 'e1', 'a1'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .valid_castling(self.board, 'e1', 'h1'))
 
         self.board['e1']._moved = True
         self.board['h1']._moved = True
 
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .king_valid_move(self.board, 'e1', 'h1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .rook_valid_move(self.board, 'a1', 'e1'))
 
         self.board['e1']._moved = False
         self.board['h1']._moved = False
 
         self.board['f1'] = Queen('White')
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .valid_castling(self.board, 'e1', 'h1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .king_valid_move(self.board, 'e1', 'h1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .king_valid_move(self.board, 'h1', 'e1'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .castling_free_way(self.board, 'a1', 'e1'))
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .castling_free_way(self.board, 'h1', 'e1'))
 
         self.board['e1'] = ''
@@ -380,20 +380,20 @@ class TestCheckMate(unittest.TestCase):
         self.board['D5'] = King('Black')
         self.board['c2'] = Queen('White')
 
-        self.assertFalse(ValidMoves
+        self.assertFalse(Validations
                          .is_in_check(self.board, 'Black',
-                                      ValidMoves.get_king_position(self.board,
-                                                                   'Black')))
+                                      Validations.get_king_position(self.board,
+                                                                    'Black')))
 
         self.board['d5'] = ''
         self.board['c6'] = King('Black')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .valid_move(self.board, 'c2', 'c6'))
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .is_in_check(self.board, 'Black',
-                                     ValidMoves.get_king_position(self.board,
-                                                                  'Black')))
+                                     Validations.get_king_position(self.board,
+                                                                   'Black')))
 
         self.board['c6'] = ''
         self.board['c2'] = ''
@@ -404,11 +404,11 @@ class TestCheckMate(unittest.TestCase):
         self.board['a4'] = Rook('White')
         self.board['a6'] = Rook('White')
 
-        self.assertFalse(ValidMoves.is_in_checkmate(self.board, 'Black'))
+        self.assertFalse(Validations.is_in_checkmate(self.board, 'Black'))
 
         self.board['g3'] = Bishop('White')
 
-        self.assertTrue(ValidMoves
+        self.assertTrue(Validations
                         .is_in_checkmate(self.board, 'Black'))
 
         self.board['c6'] = ''

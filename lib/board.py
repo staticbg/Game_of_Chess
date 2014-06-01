@@ -5,14 +5,14 @@ from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 from constants import ALL_BOARD_POSITIONS
 
 
-class ValidMoves:
+class Validations:
 
     def valid_position(position):
         return re.match(r'^[a-hA-H][1-8]$', position)
 
     def valid_origin_and_target(origin, target):
-        return ValidMoves.valid_position(origin) and\
-            ValidMoves.valid_position(target)
+        return Validations.valid_position(origin) and\
+            Validations.valid_position(target)
 
     def can_step_on_target(board, origin, target):
         return isinstance(board[target], Figure) and\
@@ -67,13 +67,13 @@ class ValidMoves:
 
     @staticmethod
     def pawn_valid_move(board, origin, target):
-        return ValidMoves.valid_origin_and_target(origin, target) and\
-            (ValidMoves.pawn_white_double_forward(board, origin, target) or
-             ValidMoves.pawn_black_double_forward(board, origin, target) or
-             ValidMoves.pawn_white_forward(board, origin, target) or
-             ValidMoves.pawn_black_forward(board, origin, target) or
-             ValidMoves.pawn_white_conquer(board, origin, target) or
-             ValidMoves.pawn_black_conquer(board, origin, target))
+        return Validations.valid_origin_and_target(origin, target) and\
+            (Validations.pawn_white_double_forward(board, origin, target) or
+             Validations.pawn_black_double_forward(board, origin, target) or
+             Validations.pawn_white_forward(board, origin, target) or
+             Validations.pawn_black_forward(board, origin, target) or
+             Validations.pawn_white_conquer(board, origin, target) or
+             Validations.pawn_black_conquer(board, origin, target))
 
     def rook_move_up(board, origin, target):
         figure_on_the_way = True
@@ -146,17 +146,17 @@ class ValidMoves:
 
     @staticmethod
     def rook_valid_move(board, origin, target):
-        return ValidMoves.valid_origin_and_target(origin, target) and\
-            ValidMoves.can_step_on_target(board, origin, target) and\
-            (ValidMoves.rook_move_up(board, origin, target) or
-             ValidMoves.rook_move_down(board, origin, target) or
-             ValidMoves.rook_move_right(board, origin, target) or
-             ValidMoves.rook_move_left(board, origin, target))
+        return Validations.valid_origin_and_target(origin, target) and\
+            Validations.can_step_on_target(board, origin, target) and\
+            (Validations.rook_move_up(board, origin, target) or
+             Validations.rook_move_down(board, origin, target) or
+             Validations.rook_move_right(board, origin, target) or
+             Validations.rook_move_left(board, origin, target))
 
     @staticmethod
     def knight_valid_move(board, origin, target):
-        return ValidMoves.valid_origin_and_target(origin, target) and\
-            ValidMoves.can_step_on_target(board, origin, target) and\
+        return Validations.valid_origin_and_target(origin, target) and\
+            Validations.can_step_on_target(board, origin, target) and\
             (target == '{}{}'
              .format(chr(ord(origin[0]) + 2), int(origin[1]) + 1) or
              target == '{}{}'
@@ -254,23 +254,23 @@ class ValidMoves:
 
     @staticmethod
     def bishop_valid_move(board, origin, target):
-        return ValidMoves.valid_origin_and_target(origin, target) and\
-            ValidMoves.can_step_on_target(board, origin, target) and\
-            ValidMoves.bishop_move_diagonal(board, origin, target) and\
-            (ValidMoves.bishop_move_up_right(board, origin, target) or
-             ValidMoves.bishop_move_up_left(board, origin, target) or
-             ValidMoves.bishop_move_down_right(board, origin, target) or
-             ValidMoves.bishop_move_down_left(board, origin, target))
+        return Validations.valid_origin_and_target(origin, target) and\
+            Validations.can_step_on_target(board, origin, target) and\
+            Validations.bishop_move_diagonal(board, origin, target) and\
+            (Validations.bishop_move_up_right(board, origin, target) or
+             Validations.bishop_move_up_left(board, origin, target) or
+             Validations.bishop_move_down_right(board, origin, target) or
+             Validations.bishop_move_down_left(board, origin, target))
 
     @staticmethod
     def queen_valid_move(board, origin, target):
-        return ValidMoves.rook_valid_move(board, origin, target)\
-            or ValidMoves.bishop_valid_move(board, origin, target)
+        return Validations.rook_valid_move(board, origin, target)\
+            or Validations.bishop_valid_move(board, origin, target)
 
     @staticmethod
     def king_valid_move(board, origin, target):
-        return ValidMoves.valid_origin_and_target(origin, target) and\
-            ValidMoves.can_step_on_target(board, origin, target) and\
+        return Validations.valid_origin_and_target(origin, target) and\
+            Validations.can_step_on_target(board, origin, target) and\
             ord(origin[0].upper()) - ord(target[0].upper())\
             in range(-1, 2) and\
             int(origin[1]) - int(target[1]) in range(-1, 2)
@@ -302,22 +302,22 @@ class ValidMoves:
             board[origin]._colour == board[target]._colour and\
             board[origin]._moved is False and\
             board[target]._moved is False and\
-            ValidMoves.castling_free_way(board, origin, target)
+            Validations.castling_free_way(board, origin, target)
 
     @staticmethod
     def valid_move(board, origin, target):
         if isinstance(board[origin], Pawn):
-            return ValidMoves.pawn_valid_move(board, origin, target)
+            return Validations.pawn_valid_move(board, origin, target)
         elif isinstance(board[origin], Rook):
-            return ValidMoves.rook_valid_move(board, origin, target)
+            return Validations.rook_valid_move(board, origin, target)
         elif isinstance(board[origin], Knight):
-            return ValidMoves.knight_valid_move(board, origin, target)
+            return Validations.knight_valid_move(board, origin, target)
         elif isinstance(board[origin], Bishop):
-            return ValidMoves.bishop_valid_move(board, origin, target)
+            return Validations.bishop_valid_move(board, origin, target)
         elif isinstance(board[origin], Queen):
-            return ValidMoves.queen_valid_move(board, origin, target)
+            return Validations.queen_valid_move(board, origin, target)
         elif isinstance(board[origin], King):
-            return ValidMoves.king_valid_move(board, origin, target)
+            return Validations.king_valid_move(board, origin, target)
         else:
             return False
 
@@ -335,9 +335,9 @@ class ValidMoves:
                             ord(king_position[0]) + 2):
             for index in range(int(king_position[1]) - 1,
                                int(king_position[1]) + 2):
-                if ValidMoves.valid_position(
+                if Validations.valid_position(
                     '{}{}'.format(chr(letter), index)) and\
-                    ValidMoves.king_valid_move(
+                    Validations.king_valid_move(
                         board, king_position, '{}{}'.format(chr(letter),
                                                             index)):
                             valid_king_moves.append(
@@ -351,18 +351,18 @@ class ValidMoves:
         for position in ALL_BOARD_POSITIONS:
             if isinstance(board[position], Figure) and\
                board[position]._colour != colour\
-               and ValidMoves.valid_move(board, position, king_position):
+               and Validations.valid_move(board, position, king_position):
                     king_in_check = True
 
         return king_in_check
 
     @staticmethod
     def is_in_checkmate(board, colour):
-        valid_king_moves = ValidMoves.get_valid_king_moves(
-            board, colour, ValidMoves.get_king_position(board, colour))
+        valid_king_moves = Validations.get_valid_king_moves(
+            board, colour, Validations.get_king_position(board, colour))
 
         return valid_king_moves != [] and\
-            all(ValidMoves.is_in_check(board, colour, king_move)
+            all(Validations.is_in_check(board, colour, king_move)
                 for king_move in valid_king_moves)
 
 
