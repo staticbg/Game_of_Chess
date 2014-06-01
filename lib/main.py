@@ -44,7 +44,10 @@ def start_game():
                 target.upper() in ALL_BOARD_POSITIONS and\
                 game.move(origin, target) == 'Player {} wins'\
                                              .format(player_1) or\
-                game.move(origin, target) == 'Player {} wins'.format(player_2):
+                game.move(origin, target) == 'Player {} wins'.format(player_2)\
+                or game.move(origin, target) ==\
+                'Player {} and Player {} ended the game with a draw'\
+                .format(player_1, player_2):
             print(game.move(origin, target))
             game_in_progress = False
 
