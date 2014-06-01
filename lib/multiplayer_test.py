@@ -138,5 +138,32 @@ class TestValidations(unittest.TestCase):
         self.assertEqual(game._player_black.show_lost_figures(),
                          ' Black Pawn Black Pawn Black Pawn')
 
+        # http://www.chessgames.com/perl/chessgame?gid=1339137
+        game = MultiPlayer('Johan Upmark', 'Robin Johansson')
+
+        game.move('c2', 'c4')
+        game.move('h7', 'h5')
+        game.move('h2', 'h4')
+        game.move('a7', 'a5')
+        game.move('d1', 'a4')
+        game.move('a8', 'a6')
+        game.move('a4', 'a5')
+        game.move('a6', 'h6')
+        game.move('a5', 'c7')
+        game.move('f7', 'f6')
+        game.move('c7', 'd7')
+        game.move('e8', 'f7')
+        game.move('d7', 'b7')
+        game.move('d8', 'd3')
+        game.move('b7', 'b8')
+        game.move('d3', 'h7')
+        game.move('b8', 'c8')
+        game.move('f7', 'g6')
+        game.move('c8', 'e6')
+
+        self.assertEqual(game.move('a3', 'a5'),
+                         '{}{}'.format('Player Johan Upmark and Player Robin ',
+                                       'Johansson ended the game with a draw'))
+
 # if __name__ == '__main__':
 #    unittest.main()
