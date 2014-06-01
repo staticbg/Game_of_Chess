@@ -345,6 +345,13 @@ class Validations:
         return valid_king_moves
 
     @staticmethod
+    def get_all_valid_moves(board, turn):
+        return ['{}{}'.format(origin, target) for origin in ALL_BOARD_POSITIONS
+                for target in ALL_BOARD_POSITIONS
+                if Validations.valid_move(board, origin, target) and
+                board[origin]._colour == turn]
+
+    @staticmethod
     def is_in_check(board, colour, king_position):
         king_in_check = False
 
