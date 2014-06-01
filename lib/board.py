@@ -2,6 +2,8 @@ import re
 
 from figures import Figure, Pawn, Rook, Knight, Bishop, King, Queen
 
+from constants import ALL_BOARD_POSITIONS
+
 
 class ValidMoves:
 
@@ -63,7 +65,6 @@ class ValidMoves:
             isinstance(board[target], Figure) and\
             board[target]._colour != board[origin]._colour
 
-    # TODO: en passant special move, promotion special move
     @staticmethod
     def pawn_valid_move(board, origin, target):
         return ValidMoves.valid_origin_and_target(origin, target) and\
@@ -322,12 +323,10 @@ class ValidMoves:
 
     @staticmethod
     def get_king_position(board, colour):
-        for letter in range(ord('A'), ord('H') + 1):
-            for index in range(1, 9):
-                if isinstance(board['{}{}'.format(chr(letter), index)], King)\
-                   and board['{}{}'
-                             .format(chr(letter), index)]._colour == colour:
-                    return '{}{}'.format(chr(letter), index)
+        for position in ALL_BOARD_POSITIONS:
+            if isinstance(board[position], King)\
+               and board[position]._colour == colour:
+                    return position
 
     def get_valid_king_moves(board, colour, king_position):
         valid_king_moves = []
@@ -349,16 +348,11 @@ class ValidMoves:
     def is_in_check(board, colour, king_position):
         king_in_check = False
 
-        for letter in range(ord('A'), ord('H') + 1):
-            for index in range(1, 9):
-
-                if isinstance(
-                    board['{}{}'.format(chr(letter), index)], Figure) and\
-                   board['{}{}'.format(chr(letter), index)]._colour != colour\
-                   and ValidMoves.valid_move(board, '{}{}'.format(chr(letter),
-                                                                  index),
-                                             king_position):
-                            king_in_check = True
+        for position in ALL_BOARD_POSITIONS:
+            if isinstance(board[position], Figure) and\
+               board[position]._colour != colour\
+               and ValidMoves.valid_move(board, position, king_position):
+                    king_in_check = True
 
         return king_in_check
 
