@@ -2,6 +2,8 @@ import unittest
 
 from figures import Pawn, Knight, Bishop, Rook, Queen, King
 
+from constants import ALL_BOARD_POSITIONS
+
 from board import Board, Validations
 
 
@@ -415,6 +417,34 @@ class TestCheckMate(unittest.TestCase):
         self.board['c6'] = ''
         self.board['c2'] = ''
 
+    def test_stalemate_checkmate(self):
+        for position in ALL_BOARD_POSITIONS:
+            self.board[position] = ''
+        self.board['D5'] = King('Black')
+        self.board['c2'] = Queen('White')
+        self.board['a4'] = Rook('White')
+        self.board['a6'] = Rook('White')
+
+        self.assertFalse(Validations.is_in_checkmate(self.board, 'Black'))
+
+        self.board['g3'] = Bishop('White')
+
+        self.assertTrue(Validations.is_in_stalemate(self.board, 'Black'))
+
+        self.board['d1'] = Rook('White')
+
+        self.assertTrue(Validations
+                        .is_in_checkmate(self.board, 'Black'))
+
+        self.board['d1'] = ''
+        self.board['e4'] = Pawn('White')
+
+        self.assertTrue(Validations.is_in_checkmate(self.board, 'Black'))
+
+        self.board['e4'] = ''
+        self.board['c6'] = ''
+        self.board['c2'] = ''
+
 
 class TestBoard(unittest.TestCase):
     def test_get_item(self):
@@ -450,4 +480,4 @@ class TestBoard(unittest.TestCase):
                                      '   A B C D E F G H')
 
 # if __name__ == '__main__':
-#    unittest.main()
+#   unittest.main()
