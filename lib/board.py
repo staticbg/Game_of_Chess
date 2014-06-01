@@ -380,8 +380,15 @@ class Validations:
         return king_in_check
 
     @staticmethod
-    def is_in_checkmate(board, colour):
+    def is_in_stalemate(board, colour):
         return Validations.get_all_valid_moves_check(board, colour) == []
+
+    @staticmethod
+    def is_in_checkmate(board, colour):
+        return Validations.get_all_valid_moves_check(board, colour) == [] and\
+            Validations.is_in_check(board, colour,
+                                    Validations
+                                    .get_king_position(board, colour))
 
 
 class Board:

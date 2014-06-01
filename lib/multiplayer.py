@@ -90,6 +90,10 @@ class MultiPlayer:
                 str(self._player_black) * (self._turn == 'White')
             return '{} wins'.format(winner)
 
+        elif Validations.is_in_stalemate(self._board, self._turn):
+            return '{} and {} ended the game with a draw'\
+                   .format(str(self._player_white), str(self._player_black))
+
         elif isinstance(self._board[origin], Figure) and\
                 self._board[origin]._colour == self._turn:
 

@@ -408,7 +408,7 @@ class TestCheckMate(unittest.TestCase):
 
         self.board['d1'] = Rook('White')
         self.board['g3'] = Bishop('White')
-        print(str(self.board))
+
         self.assertTrue(Validations
                         .is_in_checkmate(self.board, 'Black'))
 
