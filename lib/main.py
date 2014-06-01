@@ -6,6 +6,12 @@ def start_game():
     player_1 = input()
     print("Enter player 2 (black figures) name")
     player_2 = input()
+
+    if player_1 == '':
+        player_1 = '1'
+    if player_2 == '':
+        player_2 = '2'
+
     game = MultiPlayer(player_1, player_2)
 
     game_in_progress = True
