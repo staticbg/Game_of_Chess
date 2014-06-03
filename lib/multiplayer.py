@@ -14,44 +14,44 @@ class MultiPlayer:
         self._turn = 'White'
         print(str(self._board))
 
-    def get_player_name(self):
+    def _player_name(self):
         return str(self._player_white) * (self._turn == 'White') +\
             str(self._player_black) * (self._turn == 'Black')
 
-    def get_other_player(self):
+    def _other_player_name(self):
         return str(self._player_white) * (self._turn == 'Black') +\
             str(self._player_black) * (self._turn == 'White')
 
-    def offer_draw(self):
-        print("{} offers a draw. y/n".format(self.get_player_name()))
+    def _offer_draw(self):
+        print("{} offers a draw. y/n".format(self._player_name()))
         answer = input()
         if answer.upper() == 'Y':
             return '{} and {} ended the game with a draw'\
                    .format(str(self._player_white), str(self._player_black))
         elif answer.upper() == 'N':
-            return '{} declined'.format(self.get_other_player())
+            return '{} declined'.format(self._other_player_name())
         else:
             print("Please give your answer: y/n")
-            return self.offer_draw()
+            return self._offer_draw()
 
-    def resign(self):
-        return '{} wins'.format(self.get_other_player())
+    def _resign(self):
+        return '{} wins'.format(self._other_player_name())
 
-    def next_turn(self):
+    def _next_turn(self):
         self._turn = 'Black' * (self._turn == 'White') +\
                      'White' * (self._turn == 'Black')
 
-    def capture(self, position):
+    def _capture(self, position):
         if self._turn == 'White':
             self._player_black.add_figure(self._board[position])
         else:
             self._player_white.add_figure(self._board[position])
 
-    def is_pawn_on_end(self, board, target):
+    def _is_pawn_on_end(self, board, target):
         return isinstance(self._board[target], Pawn) and\
             int(target[1]) == 1 + 7 * (self._turn == board[target]._colour)
 
-    def promote_pawn(self):
+    def _promote_pawn(self):
         promotion = {'QUEEN': Queen, 'BISHOP': Bishop,
                      'ROOK': Rook, 'KNIGHT': Knight}
 
@@ -60,9 +60,9 @@ class MultiPlayer:
             return promotion[promoted_pawn.upper()]
         else:
             print("Please choose between queen, bishop, rook and knight")
-            return self.promote_pawn()
+            return self._promote_pawn()
 
-    def make_castling(self, origin, target):
+    def _make_castling(self, origin, target):
         if origin[0].upper() == 'A' or target[0].upper() == 'A':
             self._board['d{}'.format(origin[1])] =\
                 Rook(self._board[origin]._colour)
@@ -76,9 +76,9 @@ class MultiPlayer:
                 King(self._board[origin]._colour)
 
         self._board[origin], self._board[target] = '', ''
-        self.next_turn()
+        self._next_turn()
 
-    def king_is_in_check(self):
+    def _king_is_in_check(self):
         return Validations.is_in_check(self._board, self._turn,
                                        Validations
                                        .get_king_position(self._board,
@@ -100,24 +100,24 @@ class MultiPlayer:
             if Validations.valid_move(self._board, origin, target):
 
                 if isinstance(self._board[target], Figure):
-                    self.capture(target)
+                    self._capture(target)
 
                 self._board[target] = self._board[origin]
                 temp_origin = self._board[origin]
                 self._board[origin] = ''
 
-                if self.king_is_in_check():
+                if self._king_is_in_check():
                     print("Not a valid move, your King is checked.")
                     self._board[origin] = self._board[target]
                     self._board[origin] = temp_origin
-                    self.next_turn()
+                    self._next_turn()
 
-                if self.is_pawn_on_end(self._board, target):
-                    self._board[target] = self.promote_pawn()(self._turn)
-                self.next_turn()
+                if self._is_pawn_on_end(self._board, target):
+                    self._board[target] = self._promote_pawn()(self._turn)
+                self._next_turn()
 
             elif Validations.valid_castling(self._board, origin, target):
-                self.make_castling(origin, target)
+                self._make_castling(origin, target)
 
             else:
                 return "Not a valid move, please try again!"

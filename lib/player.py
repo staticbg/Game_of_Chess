@@ -1,10 +1,7 @@
-from figures import LostFigures
-
-
 class Player:
     def __init__(self, name):
         self._name = name
-        self._lost_figures = LostFigures()
+        self._lost_figures = []
 
     def __str__(self):
         return 'Player {}'.format(self._name)
@@ -13,7 +10,10 @@ class Player:
         return self._name
 
     def add_figure(self, figure):
-        self._lost_figures.add_figure(figure)
+        self._lost_figures.append(figure)
 
     def show_lost_figures(self):
-        return str(self._lost_figures)
+        lost_figures = ''
+        for figure in self._lost_figures:
+            lost_figures = '{} {}'.format(lost_figures, figure)
+        return lost_figures

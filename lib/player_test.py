@@ -2,7 +2,7 @@ import unittest
 
 from player import Player
 
-from figures import LostFigures, Pawn, Rook
+from figures import Pawn, Rook
 
 
 class TestPlayer(unittest.TestCase):

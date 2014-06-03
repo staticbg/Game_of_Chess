@@ -32,11 +32,11 @@ class TestValidations(unittest.TestCase):
 
     def test_resignation(self):
         game = MultiPlayer('Ivan', 'Pesho')
-        self.assertEqual(game.resign(), 'Player Pesho wins')
+        self.assertEqual(game._resign(), 'Player Pesho wins')
 
         new_game = MultiPlayer('George', 'Kristian')
         new_game.move('a2', 'a4')
-        self.assertEqual(new_game.resign(), 'Player George wins')
+        self.assertEqual(new_game._resign(), 'Player George wins')
 
     def test_capture(self):
         game = MultiPlayer()
