@@ -1,4 +1,4 @@
-from board import Board, Validations
+from board import Board
 
 from figures import Figure, Pawn, Rook, Bishop, Knight, Queen, King
 
@@ -79,25 +79,25 @@ class MultiPlayer:
         self._next_turn()
 
     def _king_is_in_check(self):
-        return Validations.is_in_check(self._board, self._turn,
-                                       Validations
-                                       .get_king_position(self._board,
-                                                          self._turn))
+        return self._board._is_in_check(self._board, self._turn,
+                                        self._board
+                                        ._king_position(self._board,
+                                                        self._turn))
 
     def move(self, origin, target):
-        if Validations.is_in_checkmate(self._board, self._turn):
+        if self._board._is_in_checkmate(self._board, self._turn):
             winner = str(self._player_white) * (self._turn == 'Black') +\
                 str(self._player_black) * (self._turn == 'White')
             return '{} wins'.format(winner)
 
-        elif Validations.is_in_stalemate(self._board, self._turn):
+        elif self._board._is_in_stalemate(self._board, self._turn):
             return '{} and {} ended the game with a draw'\
                    .format(str(self._player_white), str(self._player_black))
 
         elif isinstance(self._board[origin], Figure) and\
                 self._board[origin]._colour == self._turn:
 
-            if Validations.valid_move(self._board, origin, target):
+            if self._board._valid_move(self._board, origin, target):
 
                 if isinstance(self._board[target], Figure):
                     self._capture(target)
@@ -116,7 +116,7 @@ class MultiPlayer:
                     self._board[target] = self._promote_pawn()(self._turn)
                 self._next_turn()
 
-            elif Validations.valid_castling(self._board, origin, target):
+            elif self._board._valid_castling(self._board, origin, target):
                 self._make_castling(origin, target)
 
             else:

@@ -2,6 +2,8 @@ import unittest
 
 from figures import Pawn, Knight, Bishop, Rook, Queen, King
 
+from board import Board
+
 
 class TestFigures(unittest.TestCase):
     def test_to_string(self):
