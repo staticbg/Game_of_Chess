@@ -84,6 +84,35 @@ class MultiPlayer:
                                         ._king_position(self._board,
                                                         self._turn))
 
+    def _move_figure(self, origin, target):
+        if isinstance(self._board[target], Figure):
+                self._capture(target)
+
+        self._board[target] = self._board[origin]
+        temp_origin = self._board[origin]
+        self._board[origin] = ''
+
+        if self._king_is_in_check():
+            self._board[origin] = self._board[target]
+            self._board[origin] = temp_origin
+            self._next_turn()
+            return "Not a valid move, your King is checked."
+
+        if self._is_pawn_on_end(self._board, target):
+            self._board[target] = self._promote_pawn()(self._turn)
+        self._next_turn()
+
+    def _validate_and_move_figure(self, origin, target):
+        if self._board._valid_move(self._board, origin, target):
+            self._move_figure(origin, target)
+
+        elif self._board._valid_castling(self._board, origin, target):
+            self._make_castling(origin, target)
+
+        else:
+            print(str(self._board))
+            return "Not a valid move, please try again!"
+
     def move(self, origin, target):
         if self._board._is_in_checkmate(self._board, self._turn):
             winner = str(self._player_white) * (self._turn == 'Black') +\
@@ -96,32 +125,8 @@ class MultiPlayer:
 
         elif isinstance(self._board[origin], Figure) and\
                 self._board[origin]._colour == self._turn:
-
-            if self._board._valid_move(self._board, origin, target):
-
-                if isinstance(self._board[target], Figure):
-                    self._capture(target)
-
-                self._board[target] = self._board[origin]
-                temp_origin = self._board[origin]
-                self._board[origin] = ''
-
-                if self._king_is_in_check():
-                    print("Not a valid move, your King is checked.")
-                    self._board[origin] = self._board[target]
-                    self._board[origin] = temp_origin
-                    self._next_turn()
-
-                if self._is_pawn_on_end(self._board, target):
-                    self._board[target] = self._promote_pawn()(self._turn)
-                self._next_turn()
-
-            elif self._board._valid_castling(self._board, origin, target):
-                self._make_castling(origin, target)
-
-            else:
-                return "Not a valid move, please try again!"
-                print(str(self._board))
+            if self._validate_and_move_figure(origin, target) is not None:
+                return self._validate_and_move_figure(origin, target)
 
         else:
             return "Not a valid move, please try again!"
