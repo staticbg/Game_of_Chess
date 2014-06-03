@@ -113,11 +113,14 @@ class MultiPlayer:
             print(str(self._board))
             return "Not a valid move, please try again!"
 
+    def _determine_winner(self):
+        winner = str(self._player_white) * (self._turn == 'Black') +\
+            str(self._player_black) * (self._turn == 'White')
+        return '{} wins'.format(winner)
+
     def move(self, origin, target):
         if self._board._is_in_checkmate(self._board, self._turn):
-            winner = str(self._player_white) * (self._turn == 'Black') +\
-                str(self._player_black) * (self._turn == 'White')
-            return '{} wins'.format(winner)
+            return self._determine_winner()
 
         elif self._board._is_in_stalemate(self._board, self._turn):
             return '{} and {} ended the game with a draw'\
