@@ -256,7 +256,7 @@ class Knight(Figure):
 
     def _knight_valid_move(self, board, origin, target):
         return board._valid_origin_and_target(origin, target) and\
-            board._can_step_on_target(board, origin, target) and\
+            board._can_step_on_target(origin, target) and\
             (target == '{}{}'
              .format(chr(ord(origin[0]) + 2), int(origin[1]) + 1) or
              target == '{}{}'
@@ -282,7 +282,7 @@ class Bishop(Figure):
 
     def _bishop_valid_move(self, board, origin, target):
         return board._valid_origin_and_target(origin, target) and\
-            board._can_step_on_target(board, origin, target) and\
+            board._can_step_on_target(origin, target) and\
             bishop_valid_move(board, origin, target)
 
 
@@ -294,7 +294,7 @@ class Rook(Figure):
 
     def _rook_valid_move(self, board, origin, target):
         return board._valid_origin_and_target(origin, target) and\
-            board._can_step_on_target(board, origin, target) and\
+            board._can_step_on_target(origin, target) and\
             rook_valid_move(board, origin, target)
 
 
@@ -305,7 +305,7 @@ class Queen(Figure):
 
     def _queen_valid_move(self, board, origin, target):
         return board._valid_origin_and_target(origin, target) and\
-            board._can_step_on_target(board, origin, target) and\
+            board._can_step_on_target(origin, target) and\
             (rook_valid_move(board, origin, target) or
              bishop_valid_move(board, origin, target))
 
@@ -318,7 +318,7 @@ class King(Figure):
 
     def _king_valid_move(self, board, origin, target):
         return board._valid_origin_and_target(origin, target) and\
-            board._can_step_on_target(board, origin, target) and\
+            board._can_step_on_target(origin, target) and\
             ord(origin[0].upper()) - ord(target[0].upper())\
             in range(-1, 2) and\
             int(origin[1]) - int(target[1]) in range(-1, 2)

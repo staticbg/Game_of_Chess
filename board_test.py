@@ -383,8 +383,7 @@ class TestCheckMate(unittest.TestCase):
 
         self.assertFalse(self.board
                          ._is_in_check(self.board, 'Black',
-                                       self.board._king_position(self.board,
-                                                                 'Black')))
+                                       self.board._king_position('Black')))
 
         self.board['d5'] = ''
         self.board['c6'] = King('Black')
@@ -393,8 +392,7 @@ class TestCheckMate(unittest.TestCase):
                         ._valid_move(self.board, 'c2', 'c6'))
         self.assertTrue(self.board
                         ._is_in_check(self.board, 'Black',
-                                      self.board._king_position(self.board,
-                                                                'Black')))
+                                      self.board._king_position('Black')))
 
         self.board['c6'] = ''
         self.board['c2'] = ''

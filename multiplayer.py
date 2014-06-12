@@ -81,8 +81,7 @@ class MultiPlayer:
     def _king_is_in_check(self):
         return self._board._is_in_check(self._board, self._turn,
                                         self._board
-                                        ._king_position(self._board,
-                                                        self._turn))
+                                        ._king_position(self._turn))
 
     def _move_figure(self, origin, target):
         if isinstance(self._board[target], Figure):
