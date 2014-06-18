@@ -86,6 +86,27 @@ def draw_board(board):
                 set_figure(row, column)
 
 
+def convert_position(coordinates):
+    return '{}{}'.format(chr(64+(coordinates[0]-1)//60),
+                         9 - int(coordinates[1]-1)//60)
+
+
+def win_window(winner):
+    dimension = [400, 400]
+    screen = pygame.display.set_mode(dimension)
+    pygame.display.set_caption('Congratulations {}! You win!'
+                               .format(str(winner)))
+    win_image = pygame.image.load('./images/You_Win.jpg')
+    screen.blit(win_image, (0, 0))
+    pygame.display.flip()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+
+origin = ''
 while True:
     draw_board(board)
     pygame.display.flip()
@@ -93,5 +114,18 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and origin == '':
+            origin = convert_position(pygame.mouse.get_pos())
+            print('origin', origin)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            target = convert_position(pygame.mouse.get_pos())
+            print('target', target)
+            board.move(origin, target)
+            if board.move(origin, target) ==\
+                    '{} wins'.format(str(board._player_white)) or\
+                    board.move(origin, target) ==\
+                    '{} wins'.format(str(board._player_black)):
+                win_window(board._other_player_name())
+            origin, target = '', ''
 
 pygame.quit()
