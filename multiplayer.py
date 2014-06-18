@@ -87,6 +87,7 @@ class MultiPlayer:
         if isinstance(self._board[target], Figure):
                 self._capture(target)
 
+        temp_target = self._board[target]
         self._board[target] = self._board[origin]
         temp_origin = self._board[origin]
         self._board[origin] = ''
@@ -94,6 +95,7 @@ class MultiPlayer:
         if self._king_is_in_check():
             self._board[origin] = self._board[target]
             self._board[origin] = temp_origin
+            self._board[target] = temp_target
             self._next_turn()
             return "Not a valid move, your King is checked."
 
