@@ -2,18 +2,21 @@ import pygame
 
 from figures import Figure, Pawn, Rook, Bishop, Queen, King, Knight
 
+from constants import ALL_BOARD_POSITIONS
+
 import multiplayer
 
+import inputbox
+
 pygame.init()
-dimension = [600, 600]
+dimension = [1000, 600]
 screen = pygame.display.set_mode(dimension)
-pygame.display.set_caption("Chess")
+pygame.display.set_caption('Chess')
+
+board = []
+initialized = False
 
 size = 60
-
-end = False
-
-board = multiplayer.MultiPlayer()
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -71,8 +74,23 @@ def set_figure(row, column):
     screen.blit(pieces[colour][symbol], (65+column*60, 65+row*60))
 
 
-def draw_board(board):
+def menu_window():
+    dimension = [1000, 600]
+    screen = pygame.display.set_mode(dimension)
+    screen.fill(brown)
+    pygame.display.set_caption('Enter players names')
+    player_1 = inputbox.ask(screen, 'Player 1 name')
+    player_2 = inputbox.ask(screen, 'Player 2 name')
+    print(player_1, player_2)
+    global board
+    board = multiplayer.MultiPlayer(player_1, player_2)
+    global initialized
+    initialized = True
+    draw_board()
+    pygame.display.flip()
 
+
+def draw_board():
     screen.fill(brown)
     for row in range(8):
         for column in range(8):
@@ -84,6 +102,21 @@ def draw_board(board):
                               size])
             if is_figure(row, column):
                 set_figure(row, column)
+
+    font = pygame.font.Font(None, 60)
+    for letter in range(ord('A'), ord('H') + 1):
+        column = font.render(chr(letter), 1, white)
+        screen.blit(column, (15 + 60*(letter - 64), 10))
+        screen.blit(column, (15 + 60*(letter - 64), 550))
+        row = font.render('{}'.format(8 - letter + 65), 1, white)
+        screen.blit(row, (25, 15 + 60*(letter - 64)))
+        screen.blit(row, (550, 15 + 60*(letter - 64)))
+
+    font = pygame.font.Font(None, 40)
+    player_1 = font.render(str(board._player_white), 1, white)
+    screen.blit(player_1, (650, 550))
+    player_2 = font.render(str(board._player_black), 1, black)
+    screen.blit(player_2, (650, 10))
 
 
 def convert_position(coordinates):
@@ -108,7 +141,10 @@ def win_window(winner):
 
 origin = ''
 while True:
-    draw_board(board)
+    if not initialized:
+        menu_window()
+    else:
+        draw_board()
     pygame.display.flip()
 
     for event in pygame.event.get():
@@ -120,12 +156,14 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             target = convert_position(pygame.mouse.get_pos())
             print('target', target)
-            board.move(origin, target)
-            if board.move(origin, target) ==\
-                    '{} wins'.format(str(board._player_white)) or\
-                    board.move(origin, target) ==\
-                    '{} wins'.format(str(board._player_black)):
-                win_window(board._other_player_name())
+            if origin in ALL_BOARD_POSITIONS and\
+               target in ALL_BOARD_POSITIONS:
+                board.move(origin, target)
+                if board.move(origin, target) ==\
+                        '{} wins'.format(str(board._player_white)) or\
+                        board.move(origin, target) ==\
+                        '{} wins'.format(str(board._player_black)):
+                    win_window(board._other_player_name())
             origin, target = '', ''
 
 pygame.quit()
