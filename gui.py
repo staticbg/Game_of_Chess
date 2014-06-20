@@ -90,40 +90,6 @@ def menu_window():
     pygame.display.flip()
 
 
-def draw_board():
-    screen.fill(brown)
-    for row in range(8):
-        for column in range(8):
-            pygame.draw.rect(screen,
-                             is_light(row, column),
-                             [size*(column + 1),
-                              size*(row + 1),
-                              size,
-                              size])
-            if is_figure(row, column):
-                set_figure(row, column)
-
-    font = pygame.font.Font(None, 60)
-    for letter in range(ord('A'), ord('H') + 1):
-        column = font.render(chr(letter), 1, white)
-        screen.blit(column, (15 + 60*(letter - 64), 10))
-        screen.blit(column, (15 + 60*(letter - 64), 550))
-        row = font.render('{}'.format(8 - letter + 65), 1, white)
-        screen.blit(row, (25, 15 + 60*(letter - 64)))
-        screen.blit(row, (550, 15 + 60*(letter - 64)))
-
-    font = pygame.font.Font(None, 40)
-    player_1 = font.render(str(board._player_white), 1, white)
-    screen.blit(player_1, (650, 550))
-    player_2 = font.render(str(board._player_black), 1, black)
-    screen.blit(player_2, (650, 10))
-
-
-def convert_position(coordinates):
-    return '{}{}'.format(chr(64+(coordinates[0]-1)//60),
-                         9 - int(coordinates[1]-1)//60)
-
-
 def win_window(winner):
     dimension = [400, 400]
     screen = pygame.display.set_mode(dimension)
@@ -139,20 +105,124 @@ def win_window(winner):
                 pygame.quit()
 
 
-origin = ''
-while True:
-    if not initialized:
-        menu_window()
-    else:
-        draw_board()
+def draw_window():
+    dimension = [400, 400]
+    screen = pygame.display.set_mode(dimension)
+    pygame.display.set_caption('Draw')
+    draw_image = pygame.image.load('./images/draw.jpg')
+    screen.blit(draw_image, (0, 0))
     pygame.display.flip()
 
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+
+def draw_draw_offer_buttons():
+    font = pygame.font.Font(None, 40)
+    background_color = player_color()
+    text_color = tuple([255 - background_color[0]]*3)
+    resign_button = font.render('No', 1, text_color, background_color)
+    screen.blit(resign_button, (800, 350))
+    draw_button = font.render('Yes', 1, text_color, background_color)
+    screen.blit(draw_button, (700, 350))
+
+
+def offer_draw():
+    draw_draw_offer_buttons()
+    global waiting_draw_answer
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_position = pygame.mouse.get_pos()
+            if mouse_position[0] in range(700, 745) and\
+               mouse_position[1] in range(350, 378):
+                draw_window()
+            elif mouse_position[0] in range(800, 840) and\
+                    mouse_position[1] in range(350, 378):
+                waiting_draw_answer = False
+
+
+def player_color():
+    return white if board._turn == 'White' else black
+
+
+def draw_player_names():
+    font = pygame.font.Font(None, 40)
+    player_1 = font.render(str(board._player_white), 1, white)
+    screen.blit(player_1, (650, 550))
+    player_2 = font.render(str(board._player_black), 1, black)
+    screen.blit(player_2, (650, 10))
+    player_on_turn = font.render('{}\'s turn'
+                                 .format(board._player_name()), 1,
+                                 player_color())
+    screen.blit(player_on_turn, (650, 250))
+
+
+def draw_board_rows_and_columns():
+    font = pygame.font.Font(None, 60)
+    for letter in range(ord('A'), ord('H') + 1):
+        column = font.render(chr(letter), 1, white)
+        screen.blit(column, (15 + 60*(letter - 64), 10))
+        screen.blit(column, (15 + 60*(letter - 64), 550))
+        row = font.render('{}'.format(8 - letter + 65), 1, white)
+        screen.blit(row, (25, 15 + 60*(letter - 64)))
+        screen.blit(row, (550, 15 + 60*(letter - 64)))
+
+
+def draw_buttons():
+    font = pygame.font.Font(None, 40)
+    background_color = player_color()
+    text_color = tuple([255 - background_color[0]]*3)
+    resign_button = font.render('Resign', 1, text_color, background_color)
+    screen.blit(resign_button, (800, 290))
+    draw_button = font.render('Draw', 1, text_color, background_color)
+    screen.blit(draw_button, (700, 290))
+
+
+def draw_board():
+    screen.fill(brown)
+    for row in range(8):
+        for column in range(8):
+            pygame.draw.rect(screen,
+                             is_light(row, column),
+                             [size*(column + 1),
+                              size*(row + 1),
+                              size,
+                              size])
+            if is_figure(row, column):
+                set_figure(row, column)
+
+    draw_player_names()
+    draw_board_rows_and_columns()
+    draw_buttons()
+
+
+def convert_position(coordinates):
+    print(coordinates)
+    return '{}{}'.format(chr(64+(coordinates[0]-1)//60),
+                         9 - int(coordinates[1]-1)//60)
+
+
+def play_game():
+    global origin
+    global waiting_draw_answer
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
         elif event.type == pygame.MOUSEBUTTONDOWN and origin == '':
-            origin = convert_position(pygame.mouse.get_pos())
-            print('origin', origin)
+            mouse_position = pygame.mouse.get_pos()
+            if mouse_position[0] in range(800, 890) and\
+               mouse_position[1] in range(290, 318):
+                win_window(board._determine_winner())
+            elif mouse_position[0] in range(700, 765) and\
+                    mouse_position[1] in range(290, 318):
+                waiting_draw_answer = True
+            else:
+                origin = convert_position(mouse_position)
+                print('origin', origin)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             target = convert_position(pygame.mouse.get_pos())
             print('target', target)
@@ -163,7 +233,23 @@ while True:
                         '{} wins'.format(str(board._player_white)) or\
                         board.move(origin, target) ==\
                         '{} wins'.format(str(board._player_black)):
-                    win_window(board._other_player_name())
+                    win_window(board._determine_winner())
             origin, target = '', ''
+
+
+origin = ''
+waiting_draw_answer = False
+while True:
+    if not initialized:
+        menu_window()
+    else:
+        draw_board()
+
+    if waiting_draw_answer:
+        offer_draw()
+        pygame.display.flip()
+    else:
+        pygame.display.flip()
+        play_game()
 
 pygame.quit()
