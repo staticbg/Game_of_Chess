@@ -4,7 +4,7 @@ from figures import Figure, Pawn, Rook, Bishop, Queen, King, Knight
 
 from constants import ALL_BOARD_POSITIONS
 
-import multiplayer
+from multiplayer import MultiPlayer
 
 import inputbox
 
@@ -83,7 +83,7 @@ def menu_window():
     player_2 = inputbox.ask(screen, 'Player 2 name')
     print(player_1, player_2)
     global board
-    board = multiplayer.MultiPlayer(player_1, player_2)
+    board = MultiPlayer(player_1, player_2)
     global initialized
     initialized = True
     draw_board()
@@ -119,6 +119,29 @@ def draw_window():
                 pygame.quit()
 
 
+def player_color():
+    return white if board._turn == 'White' else black
+
+
+def draw_promotion_instructions():
+    font = pygame.font.Font(None, 30)
+    promotion_message_1 =\
+        font.render('When pawn is to be promoted', 1, white)
+    promotion_message_2 =\
+        font.render('enter the name of a figure from:', 1, white)
+    promotion_message_3 =\
+        font.render('in the console!', 1, white)
+    screen.blit(promotion_message_1, (650, 100))
+    screen.blit(promotion_message_2, (650, 130))
+    screen.blit(promotion_message_3, (650, 200))
+
+    color = int(player_color() == black)
+    offset = 0
+    for symbol in ['Q', 'B', 'R', 'H']:
+        screen.blit(pieces[color][symbol], (650 + offset, 150))
+        offset += 60
+
+
 def draw_draw_offer_buttons():
     font = pygame.font.Font(None, 40)
     background_color = player_color()
@@ -143,10 +166,6 @@ def offer_draw():
             elif mouse_position[0] in range(800, 840) and\
                     mouse_position[1] in range(350, 378):
                 waiting_draw_answer = False
-
-
-def player_color():
-    return white if board._turn == 'White' else black
 
 
 def draw_player_names():
@@ -195,6 +214,7 @@ def draw_board():
             if is_figure(row, column):
                 set_figure(row, column)
 
+    draw_promotion_instructions()
     draw_player_names()
     draw_board_rows_and_columns()
     draw_buttons()
