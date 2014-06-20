@@ -31,3 +31,14 @@ Goals for the second milestone
     2) To have thorough tests.
 
     3) To have at least started working on the console UI.
+
+
+Current status
+--------------
+
+	Working console UI from multiplayer.py.
+
+	Working graphic UI from gui.py.
+		In gui when pawn is on the end and has to be promoted, the player has to write the new figure's name in the console.
+
+	Due to the number of exams I have in the days until the project deadline, no additional features will be added.
