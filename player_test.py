@@ -10,6 +10,10 @@ class TestPlayer(unittest.TestCase):
         player = Player('Ivan Georgiev')
         self.assertEqual(str(player), 'Player Ivan Georgiev')
 
+    def test_repr(self):
+        player = Player('Ivan Ivanov')
+        self.assertEqual(repr(player), 'Ivan Ivanov')
+
     def test_add_to_lost_figures(self):
         player = Player('s')
 

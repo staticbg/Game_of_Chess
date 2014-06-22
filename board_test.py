@@ -476,5 +476,9 @@ class TestBoard(unittest.TestCase):
                                      '\033[37mH\033[0m|\033[37mR\033[0m|\n'
                                      '   A B C D E F G H')
 
-# if __name__ == '__main__':
-#    unittest.main()
+    def test_repr(self):
+        board = Board()
+        self.assertEqual(repr(board), 'Chess Board')
+
+#if __name__ == '__main__':
+#   unittest.main()

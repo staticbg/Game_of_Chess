@@ -14,6 +14,10 @@ class TestFigures(unittest.TestCase):
         self.assertEqual(str(Queen('Black')), 'Black Queen')
         self.assertEqual(str(King('Black')), 'Black King')
 
+    def test_repr(self):
+        self.assertEqual(repr(Pawn('White')), 'White Pawn')
+        self.assertEqual(repr(Queen('Black')), 'Black Queen')
+
     def test_symbols(self):
         self.assertEqual(Pawn('White')._symbol, '\033[37mP\033[0m')
         self.assertEqual(Knight('Black')._symbol, '\033[30mH\033[0m')
