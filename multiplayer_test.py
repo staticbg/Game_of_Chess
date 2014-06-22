@@ -5,7 +5,7 @@ from multiplayer import MultiPlayer
 from figures import King, Rook
 
 
-class TestValidations(unittest.TestCase):
+class TestValidation(unittest.TestCase):
     def test_black_wins(self):
         game = MultiPlayer('Ivan', 'George')
         game.move('e2', 'e4')
